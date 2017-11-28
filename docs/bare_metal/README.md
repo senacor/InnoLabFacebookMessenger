@@ -4,25 +4,23 @@ This document describes how to deploy, use and debug the [bare matal chatbot](..
 
 ## Prerequisites
 
-* Facebook Account
-* Facebook Developer Account
-* [Setup Facebook Page and App](../setup_facebook)
-
-* Node.js
-* Claudia.js
-
-* AWS Account
-  * Permission "Lambda function"
-  * Permission "API Gateway endpoints
-  * Permission "IAM Roles"
+- Facebook Account
+- Facebook Developer Account
+- [Setup Facebook Page and App](../setup_facebook)
+- Node.js
+- Claudia.js
+- AWS Account
+  - Permission "Lambda function"
+  - Permission "API Gateway endpoints"
+  - Permission "IAM Roles"
 
 ## Deploy and connect with Facebook
 
 The following steps are required to deplpoy this application as an AWS lambda and to connect it to your Facebook application in order to answer your Facebook page's message requests for you.
 
-### Deploy secrets to AWS
+### Deploy environment variables to AWS
 
-Your applications needs three secrets in order to communicate with your community through the Facebook messenger. Once deployed to AWS they will be available in your lambda applications.
+Your applications needs three environment variables in order to communicate with your community through the Facebook messenger. Once deployed to AWS they will be available in your lambda applications.
 
 > **Verify Token**: Self chosen token, only you know, to verify the request was sent by your application
 

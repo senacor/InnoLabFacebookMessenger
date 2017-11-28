@@ -1,4 +1,4 @@
-# POC - Facebook Chatbot using AWS Lambda in 5 Minutes
+# POC - Facebook Chatbot using Claudia.js in 5 Minutes
 
 ## Prerequisites
 * Facebook Account
