@@ -37,7 +37,9 @@ const sendMessage = (sender_psid, response, facebook_access_token) => new Promis
  * @returns {Promise.<Number|null>} Number being the challenger, sent in the query string at 'hub.challenge'
  */
 const facebookEventHandler = req => new Promise(resolve => {
-    objectGet(req, 'body.entry').forEach(entry => {
+    console.log('running facebookEventHandler')
+
+    (objectGet(req, 'body.entry') || []).forEach(entry => {
         const event = objectGet(entry, 'messaging[0]')
 
         let task = Promise.resolve()
@@ -62,6 +64,8 @@ const facebookEventHandler = req => new Promise(resolve => {
  * @returns {Number|null} Returns a the request's hub challenge as Number or null, if the passed verify token does not match
  */
 const initialFacebookConnectionHandler = req => {
+    console.log('running initialFacebookConnectionHandler')
+    
     if(objectGet(req, 'queryString.hub.verify_token') === objectGet(req, 'env.facebook_verify_token')) {
         console.log('Passed validiation')
         return parseInt(req.queryString['hub.challenge'])
