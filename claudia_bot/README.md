@@ -1,1 +1,1 @@
-# Claudia.js Facebook Chat Bot
+# Claudia.js Facebook Chatbot

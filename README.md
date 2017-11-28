@@ -1,4 +1,4 @@
-# Innolab: Facebook Chat Bots
+# Innolab: Facebook Chatbots
 
 This repository contains two chatbots. One more [advanced chatbot](./claudia_bot/README.md) built with [claudia-bot-builder](https://github.com/claudiajs/claudia-bot-builder) and [one more basic](./bare-metal_bot/README.md) built without any bot-framework.
 The more advanced Claudia.js chatbot demonstrates how to interact with Facebook users using AI, authentication and your own business logic. The more basic chatbot demonstrates how to create a Facebook chatbot backend without any framework wrapping and hiding all the magic magic.
