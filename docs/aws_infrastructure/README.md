@@ -74,3 +74,23 @@ To make an lambda executable, the lambda need a role with the following inline p
 }
 ```
 
+## AWS API Gateway
+
+Because Facebook need to have a REST-URL as web-hook to send incoming messages to, we have to make the lambda function
+available via https. For this we use the AWS API Gateway.
+
+With the API Gateway we can define REST endpoints with the methods and define what action should be performed when the endpoint
+and method is called. In this case the lambda function should be called.
+
+![aws_api_gateway](aws_api_gateway.png)
+
+In the API gateway multible version or stages of you configuration can be added. Although some stage variables can be stored there to prevent storing them inside the code.
+
+![aws_api_gateway_stage](aws_api_gateway_stage.png)
+
+# Infrastructure setup
+
+To not manually setup all the AWS components or withe IaC scrips by ourselves, we use the tooling [claudia.js](https://github.com/claudiajs/claudia).
+
+This tooling makes it very easy to setup node.js based lambda function which will be provided via AWS API Gateway.
+
