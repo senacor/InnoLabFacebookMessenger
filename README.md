@@ -8,3 +8,4 @@ Both bots are deployed to AWS using AWS lambda and [claudia-api-builder](https:/
 ## Documentation
 
 1. [AWS Infrastructure](docs/aws_infrastructure/README.md)
+2. [POC - Facebook Chatbot using AWS Lambda in 5 Minutes](docs/facebookChatbotWithAwsLambdaInFiveMinutes/README.md)
