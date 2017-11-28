@@ -1,6 +1,6 @@
 # Bare Metal Facebook Chatbot
 
-This is a very basic chatbot, demonstrating how to create a Facebook chatbot backend without any framework wrapping and hiding all the magic magic.
+This document describes how to deploy, use and debug the [bare matal chatbot](../bare-metal_bot).
 
 ## Deploy and connect with Facebook
 
