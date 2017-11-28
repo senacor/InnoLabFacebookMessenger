@@ -4,6 +4,8 @@ This is a very basic chatbot, demonstrating how to create a Facebbok chatbot bac
 
 ## Deploy and connect with Facebook
 
+The following steps are required to deplpoy this application as an AWS lambda and to connect it to your Facebook application in order to answer your Facebook page's message requests for you.
+
 ### Verify your AWS account has required rights
 
 TODO: link to other docu?
