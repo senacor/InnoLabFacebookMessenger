@@ -1,0 +1,18 @@
+{
+  "name": "bare-metal_chatbot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "update": "claudia update",
+    "deploy": "claudia create --region eu-central-1 --api-module index",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "claudia-api-builder": "^2.5.1",
+    "object-get": "^2.1.0",
+    "request": "^2.83.0"
+  }
+}
