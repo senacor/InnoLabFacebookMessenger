@@ -26,8 +26,8 @@ Your applications needs three secrets in order to communicate with your communit
 4. Chose your stage
 5. Switch to Stage Variables
 6. Add the secrets described above
-    i. `facebook_verify_token` was chosen by you when setting up webhooks 
-    ii. `facebook_access_token` can be found at the Facebook app's dashboard at Messenger -> Token Generation: https://developers.facebook.com/apps/{fb-app-id}/messenger/
-    iii. `facebook_app_secret` can be found at your Facebook app's dashboard: https://developers.facebook.com/apps/{fb-app-id}/dashboard/
+    1. `facebook_verify_token` was chosen by you when setting up webhooks 
+    2. `facebook_access_token` can be found at the Facebook app's dashboard at Messenger -> Token Generation: https://developers.facebook.com/apps/{fb-app-id}/messenger/
+    3. `facebook_app_secret` can be found at your Facebook app's dashboard: https://developers.facebook.com/apps/{fb-app-id}/dashboard/
 
 ### Deploy this application as lambda using claudia.js
