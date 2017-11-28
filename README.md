@@ -4,3 +4,7 @@ This repository contains two chatbots. One more [advanced chatbot](./claudia_bot
 The more advanced Claudia.js chatbot demonstrates how to interact with Facebook users using AI, authentication and your own business logic. The more basic chatbot demonstrates how to create a Facebook chatbot backend without any framework wrapping and hiding all the magic magic.
 
 Both bots are deployed to AWS using AWS lambda and [claudia-api-builder](https://github.com/claudiajs/claudia-api-builder) for deployment.
+
+## Documentation
+
+1. [AWS Infrastructure](docs/aws_infrastructure/README.md)
