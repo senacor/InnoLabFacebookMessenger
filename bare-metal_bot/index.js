@@ -73,7 +73,7 @@ const facebookEventHandler = req => {
 
             tasks.push(_sendMessage(sender_psid, response, objectPath.get(req, 'env.facebook_access_token')))
         } else {
-            console.log(`UNKOWN EVENT ${entry}`)
+            console.log(`UNKNOWN EVENT, entry: ${JSON.stringify(entry)}`)
         }
     })
 
@@ -88,7 +88,7 @@ const facebookEventHandler = req => {
 }
 
 /**
- * This function get's called on the default endpoint's GET call, when the chatbot framework gets connected to Facebook via it's developer console initially
+ * This function gets called on the default endpoint's GET call, when the chatbot framework gets connected to Facebook via it's developer console initially
  * It verifies that the send verify token matches the given verify token
  * @param {Object} req aws lambda request object
  * @returns {Number|null} Returns a the request's hub challenge as Number or null, if the passed verify token does not match
@@ -97,12 +97,12 @@ const initialFacebookConnectionHandler = req => {
     console.log('running initialFacebookConnectionHandler')
 
     if(objectPath.get(req, ['queryString', 'hub.verify_token']) === objectPath.get(req, 'env.facebook_verify_token')) {
-        console.log('Passed validiation')
+        console.log('Passed validation')
         return parseInt(req.queryString['hub.challenge'])
     }
 
-    console.log('Did not passed validiation')
-    return new api.ApiResponse('Did not passed validiation', {'Content-Type': 'text/plain'}, 400)
+    console.log('Did not passed validation')
+    return new api.ApiResponse('Did not passed validation', {'Content-Type': 'text/plain'}, 400)
 }
 
 api.post('/webhook', facebookEventHandler)
