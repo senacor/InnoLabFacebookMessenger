@@ -108,7 +108,7 @@ Return the challenge Facebook provides as query parameter `hub.challenge`, if va
 
 ![Verify Token](./verify_token.png)
 
-### Message signature validiation
+### Message signature validation
 
 To make sure each call is made by your application and not modified by anybody else, Facebook provides a hash of the message body, created with your app secret. Make sure to check the messages integrity!
 
