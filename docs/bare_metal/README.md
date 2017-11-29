@@ -78,6 +78,14 @@ There are multiple npm scripts defined in this `package.json` to help you deploy
 
 ### Request flow
 
+There are three separable processes:
+
+1. At the Facebook app register for the event "message" at the Facebook page.
+2. Add a webhook which you want to be called on the message event and verify the attached token. Verify token at your chatbot and return Facebook challenge.
+3. Process message to Facebook page and call Facebook Graph API with response.
+
+![Sequence diagram](./sequence_diagram.png)
+
 ### Token verification
 
 In order to ensure only authorized user can use your webhook, Facebook asks you for a verify token, when registering a new webhook. You need to take care of the verification of this token by your own.
