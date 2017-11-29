@@ -1,0 +1,15 @@
+{
+  "name": "hello-facebook",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "claudia": "./node_modules/.bin/claudia"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "claudia-bot-builder": "^2.15.0"
+  }
+}
