@@ -33,7 +33,7 @@ Your applications needs three environment variables in order to communicate with
 3. Click on Stages in the left sidebar
 4. Chose your stage
 5. Switch to Stage Variables
-6. Add the secrets described above
+6. Add the environment variables described above
     1. `facebook_verify_token` choose a random string and **keep it**
     2. `facebook_access_token` can be found at the Facebook app's dashboard at Messenger -> Token Generation: https://developers.facebook.com/apps/{fb-app-id}/messenger/
     3. `facebook_app_secret` can be found at your Facebook app's dashboard: https://developers.facebook.com/apps/{fb-app-id}/dashboard/
@@ -48,10 +48,10 @@ There are multiple npm scripts defined in this `package.json` to help you deploy
 
 ### Connect your Facebook app and your chatbot application
 
-1. At your Facebook app's dashboard (https://developers.facebook.com/apps/{fb-app-id}/dashboard/) go to Products -> Messenger -> Token Generation choose the Page you created previously and grant your app the requested rights
+1. At your Facebook app's dashboard (https://developers.facebook.com/apps/{fb-app-id}/dashboard/) go to Products -> Messenger -> Token Generation choose the page you created previously and grant your app the requested rights
 2. **Keep the generated Page Access Token**
 3. Go to Products -> Messenger -> Webhooks click on `Setup Webhooks`
-4. Paste your chatbot's URL, the Verify Token you have chosen before and chose messeges 
+4. Paste your chatbot's URL, the Verify Token you have chosen before and choose messeges 
 ![Add app webhook](./setup_webhook.png)
 5. Click on `Verify and Save`
 6. Also at Webhooks click on `Select a Page`, choose the page created previously and click on `Subscribe`
