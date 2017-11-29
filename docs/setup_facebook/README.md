@@ -24,6 +24,6 @@ Now, we need to add the "Message Product". In the menu, click on the link "Produ
 
 ![](add_product_messenger.png)
 
-Finally, click on "Messenger"->"Einrichten"
+Finally, click on "Messenger"->"Einrichten". The app is configured so far, for now.
 
 ![](configure_messenger.png)
