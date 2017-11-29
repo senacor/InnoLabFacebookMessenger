@@ -80,8 +80,8 @@ There are multiple npm scripts defined in this `package.json` to help you deploy
 
 ### Token verification
 
-In order to ensure not anybody can use your webhook, Facebook asks your for a verify token, when registering a new webhook. You need to take care of the verification of this token by your own.
-When registering a new webhook, Facebook makes a GET call to your endpoint, passing the verify token provided by the user.
+In order to ensure only authorized user can use your webhook, Facebook asks you for a verify token, when registering a new webhook. You need to take care of the verification of this token by your own.
+When registering a new webhook, Facebook makes a GET call to your webhook, passing the verify token provided by the user.
 
 ```javascript
 /**
@@ -104,13 +104,13 @@ const initialFacebookConnectionHandler = req => {
 ```
 
 `req.env.facebook_verify_token` is available once you added the token as AWS API Gateway stage environment variable, as [descibed above](#deploy-environment-variables-to-aws). Make sure to pass the prioviously created validiation token, when adding webhooks. Facebook will add the verify token as query parameter `hub.verify_token`.
-Return the challenge Facebook also provides as query parameter, if validiation passed.
+Return the challenge Facebook provides as query parameter `hub.challenge`, if validiation passed.
 
 ![Verify Token](./verify_token.png)
 
 ### Message signature validiation
 
-To make sure each call is made by your application and not modified by anybody else Facebook provides a hash of the message body created with your app secret. Make sure to check the messages integrity!
+To make sure each call is made by your application and not modified by anybody else, Facebook provides a hash of the message body, created with your app secret. Make sure to check the messages integrity!
 
 ```javascript
 /**
