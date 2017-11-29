@@ -1,6 +1,8 @@
 const ApiBuilder = require('claudia-api-builder')
 const request = require('request')
-const objectGet = require('object-get')
+const objectPath = require('object-path')
+const crypto = require('crypto')
+const tsscmp = require('tsscmp')
 
 const api = new ApiBuilder({mergeVars: true})
 
@@ -11,7 +13,7 @@ const api = new ApiBuilder({mergeVars: true})
  * @param {String} facebook_access_token Access token to act as facebook app
  * @returns {Promise} Resolves after Facebook request returns with or without error
  */
-const sendMessage = (sender_psid, response, facebook_access_token) => new Promise(resolve => {
+const _sendMessage = (sender_psid, response, facebook_access_token) => new Promise(resolve => {
     const request_body = { "recipient": { "id": sender_psid }, "message": response }
 
     request({
@@ -31,31 +33,59 @@ const sendMessage = (sender_psid, response, facebook_access_token) => new Promis
 })
 
 /**
+ * Calculates hash by given algorithm and compares calculated by given signature
+ * @param {String} signatureHeader Header as sent by Facebook containing hashing algorithm and hash, something like "sha1=alskjfaösekjf"
+ * @param {*} secret Facebook app secret
+ * @param {*} rawBody Request body to calculate hash
+ */
+const _checkMessageIntegrity = (signatureHeader, secret, rawBody) => {
+    const [algorithm, givenSignature] = signatureHeader.split('=')
+    const calculatedSignature = crypto.createHmac(algorithm, secret).update(rawBody).digest('hex')
+    // Compare strings with tsscmp to prevent timing attacks: https://codahale.com/a-lesson-in-timing-attacks/
+    return tsscmp(calculatedSignature, givenSignature)
+}
+
+/**
  * This HTTP event handler always resolves with the hub.challenge extracted from the request's query string, if available
  * It handles message events by parsing them and sending a message back via the FB API
  * @param {Object} req aws lambda request object
  * @returns {Promise.<Number|null>} Number being the challenger, sent in the query string at 'hub.challenge'
  */
-const facebookEventHandler = req => new Promise(resolve => {
+const facebookEventHandler = req => {
     console.log('running facebookEventHandler')
 
-    (objectGet(req, 'body.entry') || []).forEach(entry => {
-        const event = objectGet(entry, 'messaging[0]')
+    const signatureHeader = objectPath.get(req, ['headers', 'X-Hub-Signature'])
+    const secret = objectPath.get(req, 'env.facebook_app_secret')
+    const rawBody = req.rawBody
 
-        let task = Promise.resolve()
+    if(!_checkMessageIntegrity(signatureHeader, secret, rawBody)) {
+        console.log('Message integrity test failed')
+        return new api.ApiResponse('Message integrity test failed', {'Content-Type': 'text/plain'}, 400)
+    }
 
-        if (event.message) {
+    const tasks = []
+    objectPath.get(req, 'body.entry', []).forEach(entry => {
+        const event = objectPath.get(entry, 'messaging.0')
+
+        if (objectPath.get(event, 'message')) {
             const sender_psid = event.sender.id
             const response = { "text": `You sent the message: "${JSON.stringify(event.message)}".` }
 
-            task = sendMessage(sender_psid, response, objectGet(req, 'env.facebook_access_token'))
+            tasks.push(_sendMessage(sender_psid, response, objectPath.get(req, 'env.facebook_access_token')))
         } else {
-            console.log('UNKOWN EVENT')
+            console.log(`UNKOWN EVENT ${entry}`)
         }
-
-        return task.then(() => resolve(parseInt(objectGet(req, 'queryString.hub.challenge')) || null))
     })
-})
+
+    const challenge = parseInt(objectPath.get(req, 'queryString.hub.challenge'))
+
+    if(tasks.length <= 0) {
+        return challenge
+    }
+
+    return Promise.all(tasks)
+        .then(() => challenge)
+}
 
 /**
  * This function get's called on the default endpoint's GET call, when the chatbot framework gets connected to Facebook via it's developer console initially
@@ -65,14 +95,14 @@ const facebookEventHandler = req => new Promise(resolve => {
  */
 const initialFacebookConnectionHandler = req => {
     console.log('running initialFacebookConnectionHandler')
-    
-    if(objectGet(req, 'queryString.hub.verify_token') === objectGet(req, 'env.facebook_verify_token')) {
+
+    if(objectPath.get(req, ['queryString', 'hub.verify_token']) === objectPath.get(req, 'env.facebook_verify_token')) {
         console.log('Passed validiation')
         return parseInt(req.queryString['hub.challenge'])
     }
 
     console.log('Did not passed validiation')
-    return null
+    return new api.ApiResponse('Did not passed validiation', {'Content-Type': 'text/plain'}, 400)
 }
 
 api.post('/webhook', facebookEventHandler)
