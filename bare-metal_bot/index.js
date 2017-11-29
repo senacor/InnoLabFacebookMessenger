@@ -35,8 +35,8 @@ const _sendMessage = (sender_psid, response, facebook_access_token) => new Promi
 /**
  * Calculates hash by given algorithm and compares calculated by given signature
  * @param {String} signatureHeader Header as sent by Facebook containing hashing algorithm and hash, something like "sha1=alskjfaösekjf"
- * @param {*} secret Facebook app secret
- * @param {*} rawBody Request body to calculate hash
+ * @param {String} secret Facebook app secret
+ * @param {String} rawBody Request body to calculate hash
  */
 const _checkMessageIntegrity = (signatureHeader, secret, rawBody) => {
     const [algorithm, givenSignature] = signatureHeader.split('=')
