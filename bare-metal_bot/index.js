@@ -63,18 +63,41 @@ const facebookEventHandler = req => {
         return new api.ApiResponse('Message integrity test failed', {'Content-Type': 'text/plain'}, 400)
     }
 
-    const tasks = []
-    objectPath.get(req, 'body.entry', []).forEach(entry => {
+    const tasks = objectPath.get(req, 'body.entry', []).map(entry => {
         const event = objectPath.get(entry, 'messaging.0')
 
         if (objectPath.get(event, 'message')) {
             const sender_psid = event.sender.id
-            const response = { "text": `You sent the message: "${JSON.stringify(event.message)}".` }
+            const response1 = { "text": `Schön, dass du uns "${event.message.text}" schreibst.` }
+            const response2 = {
+                attachment: {
+                    type: 'template',
+                    payload: {
+                        template_type: 'list',
+                        top_element_style: 'large',
+                        elements: [{
+                            title: 'Title1',
+                            subtitle: 'Subtitle1',
+                            image_url: 'https://s3.eu-central-1.amazonaws.com/digital-logistic-web/00_pacel_images_header.png'
+                        }, {
+                            title: 'Title2',
+                            subtitle: 'Subtitle2',
+                            image_url: 'https://s3.eu-central-1.amazonaws.com/digital-logistic-web/00_pacel_images_header.png'
+                        }],
+                        buttons: []
+                    }
+                }
+            }
 
-            tasks.push(_sendMessage(sender_psid, response, objectPath.get(req, 'env.facebook_access_token')))
+            return Promise.all([
+                _sendMessage(sender_psid, response1, objectPath.get(req, 'env.facebook_access_token')),
+                _sendMessage(sender_psid, response2, objectPath.get(req, 'env.facebook_access_token'))
+            ])
         } else {
             console.log(`UNKNOWN EVENT, entry: ${JSON.stringify(entry)}`)
         }
+
+        return Promise.resolve()
     })
 
     const challenge = parseInt(objectPath.get(req, 'queryString.hub.challenge'))
