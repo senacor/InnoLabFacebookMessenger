@@ -4,7 +4,7 @@
 
 `$ npm run create`
 
-Creates the AWS infrastructure. 
+Creates the AWS infrastructure.
 
 `$ npm run config`
 
@@ -14,6 +14,6 @@ Updates the lambda and stores facebook access token and app secret as environmen
 
 Updates the lambda.
 
-`$ npm run destory`
+`$ npm run destroy`
 
 Destroys the AWS infrastructure.
