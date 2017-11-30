@@ -7,6 +7,7 @@ This document describes how to deploy, use and debug the [bare metal chatbot](..
 - [Prerequisites](#prerequisites)
 - [Deploy and connect with Facebook](#deploy-and-connect-with-facebook)
 - [Test and debug](#test-and-debug)
+- [Implementation details](#implementation-details)
 
 ## Prerequisites
 
@@ -64,8 +65,13 @@ There are multiple npm scripts defined in this `package.json` to help you deploy
 
 ## Test and debug
 
-1. Go to your Facebook page and start chatting by `Edit the Botton on Your Page`, choose `Use our Messenger Bot`, then hover the botton and click on `Test Button`
+1. Go to your Facebook page and start chatting by `Edit the Botton on Your Page`, choose `Use our Messenger Bot`, then hover the button and click on `Test Button`
 ![Edit the button](./edit_button.png)
 ![Use your bot](./use_bot.png)
 2. Be happy to see everything works as expected
 3. If you want to see your application's logs, go to your AWS web console and navigate to CloudWatch -> Logs -> *your application* and see logs
+
+
+## Implementation Details
+
+See [Facebook chatbot basics](../fb_chatbot_basics) for more detailed information about request flow, verify token and message integrity.
