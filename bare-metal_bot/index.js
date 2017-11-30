@@ -89,9 +89,11 @@ const facebookEventHandler = req => {
                 }
             }
 
+            const fb_access_token = objectPath.get(req, 'env.facebook_access_token')
+
             return Promise.all([
-                _sendMessage(sender_psid, response1, objectPath.get(req, 'env.facebook_access_token')),
-                _sendMessage(sender_psid, response2, objectPath.get(req, 'env.facebook_access_token'))
+                _sendMessage(sender_psid, response1, fb_access_token),
+                _sendMessage(sender_psid, response2, fb_access_token)
             ])
         } else {
             console.log(`UNKNOWN EVENT, entry: ${JSON.stringify(entry)}`)
