@@ -1,10 +1,10 @@
-# Claudia.js Facebook Chatbot
+# Digital Logistics 01
 
 ## Node scripts
 
 `$ npm run create`
 
-Creates the AWS infrastructure.
+Creates the AWS infrastructure. 
 
 `$ npm run config`
 
