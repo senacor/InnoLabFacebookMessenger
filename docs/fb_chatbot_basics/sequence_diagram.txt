@@ -1,0 +1,70 @@
+
+participant FB Page
+
+participant FB App
+
+participant AWS API Gateway
+
+participant AWS Lambda
+
+FB Page<<-FB App: Register for event "message"
+
+FB App->FB App: Add Webhook for Event 
+
+activate FB App
+
+FB App->AWS API Gateway: GET to webhook w/ verify token
+
+activate AWS API Gateway
+
+AWS API Gateway->AWS Lambda: Execute lambda
+
+activate AWS Lambda
+
+AWS Lambda->AWS Lambda: Verify Token
+
+AWS Lambda-->FB App: Returning FB challenge from request's query parameter
+
+deactivate AWS Lambda
+
+deactivate AWS API Gateway
+
+deactivate FB App
+
+space
+
+FB Page->>FB App: Send Message
+
+activate FB Page
+
+activate FB App
+
+FB App->AWS API Gateway: POST to webhook
+
+activate AWS API Gateway
+
+AWS API Gateway->AWS API Gateway: Enrich call with environment
+
+AWS API Gateway->AWS Lambda: Execute lambda
+
+activate AWS Lambda
+
+AWS Lambda->AWS Lambda: Verify HMAC
+
+AWS Lambda->AWS Lambda: Handle message
+
+AWS Lambda->FB Page: Calling FB Graph API with access token
+
+FB Page-->AWS Lambda:
+
+deactivate FB Page
+
+AWS Lambda-->FB App: Returning FB challenge from request's query parameter
+
+deactivate AWS Lambda
+
+deactivate AWS API Gateway
+
+deactivate FB App
+
+
