@@ -5,6 +5,15 @@ The more advanced Claudia.js chatbot demonstrates how to interact with Facebook 
 
 Both bots are deployed to AWS using AWS lambda and [claudia-api-builder](https://github.com/claudiajs/claudia-api-builder) for deployment.
 
+## Goals
+
+We want to implement a chatbot for a fake company called Digital Logistic, which helps their customer tracing and rerouting their parcels.
+
+### Iterations
+
+1. [Digital Logistics 1](./digital_logistics_01): Parse user input and respond with static message containing images and text if it contains a string "status" and any 8-digit number.
+2. [Digital Logistics 2](./digital_logistics_02): Authenticate users
+
 ## Documentation
 
 1. [AWS Infrastructure](docs/aws_infrastructure)
