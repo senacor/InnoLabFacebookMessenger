@@ -21,11 +21,13 @@ const _sendMessage = (sender_psid, response, facebook_access_token) => new Promi
         "qs": { "access_token": facebook_access_token },
         "method": "POST",
         "json": request_body
-    }, err => {
-        if (!err) {
-            console.log('message sent!')
+    }, (err, res) => {
+        if(err) {
+            console.error(`Unable to send message: ${JSON.stringify(err)}`);
+        } else if(objectPath.get(res, 'body.error')) {
+            console.log(objectPath.get(res, 'body.error'))
         } else {
-            console.error("Unable to send message:" + err);
+            console.log('message sent!')
         }
 
         return resolve()
@@ -67,7 +69,7 @@ const facebookEventHandler = req => {
         const event = objectPath.get(entry, 'messaging.0')
 
         if (objectPath.get(event, 'message')) {
-            const sender_psid = event.sender.id
+            const sender_psid = objectPath.get(event, 'sender.id')
             const response1 = { "text": `Schön, dass du uns "${event.message.text}" schreibst.` }
             const response2 = {
                 attachment: {

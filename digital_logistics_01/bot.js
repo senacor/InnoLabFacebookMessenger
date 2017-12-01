@@ -60,3 +60,8 @@ const parser = request => {
 
 
 module.exports = botBuilder(parser, {platforms: ['facebook']})
+
+/**
+ * const authorizationCode = objectPath.get(event, 'account_linking.authorization_code')
+            const senderPsid = objectPath.get(event, 'sender.id')
+ */
