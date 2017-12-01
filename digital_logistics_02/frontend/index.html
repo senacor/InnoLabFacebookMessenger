@@ -1,0 +1,89 @@
+<!DOCTYPE HTML>
+
+<html>
+    <head>
+        <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>Digital Logistics</title>
+    </head>
+
+    <body>
+        <script>
+            // Functions we need
+            var getUrlParameter = function getUrlParameter(sParam) {
+                var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+                    sURLVariables = sPageURL.split('&'),
+                    sParameterName,
+                    i;
+
+                for (i = 0; i < sURLVariables.length; i++) {
+                    sParameterName = sURLVariables[i].split('=');
+
+                    if (sParameterName[0] === sParam) {
+                        return sParameterName[1] === undefined ? true : sParameterName[1];
+                    }
+                }
+            };
+
+            // Our events and their handling
+            $(document).ready(function() {
+                $('#authFb').click(function(event) {
+                    event.preventDefault();
+
+                    FB.login(function (response) {
+                        if (response.authResponse) {
+                            console.log('Welcome!  Fetching your information.... ');
+                            FB.api('/me', function (response) {
+                                $('#name').html(response.name);
+                                showSection('user');
+                            });
+                        } else {
+                            showSection('error');
+                        }
+                    });
+                });
+
+                $('#login').click(function() {
+                    var accountLinkingToken = getUrlParameter('account_linking_token');
+                    var redirectUri = getUrlParameter('redirect_uri');
+                    var authorizationCode = '123' // TODO this should be public user id, e.g. from Cognito?
+                    
+                    window.location.replace(redirectUri + '=' + accountLinkingToken + '&authorization_code=' + authorizationCode);
+                });
+
+                function showSection(name) {
+                    $('section').hide();
+                    $('#' + name).show();
+                }
+
+                showSection('digitalLogisticLogin');
+            });
+        </script>
+
+        <style>
+            section {
+                display: none;
+            }
+        </style>
+
+        <section id="digitalLogisticLogin">
+            <form>
+                <label for="email">E-Mail</label>
+                <input type="text" name="email" id="email">
+                <label for="password">Password</label>
+                <input type="password" name="password" id="password">
+                <label for="register">Login</label>
+                <input type="button" name="login" id="login" value="Login">
+            </form>
+        </section>
+
+        <section id="error">
+            <p>An error occurred</p>
+        </section>
+
+        <section id="user">
+            <p>Nice to see you <span id="name"></span></p>
+        </section>
+    </body>
+</html>

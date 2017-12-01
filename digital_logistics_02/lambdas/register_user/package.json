@@ -1,0 +1,17 @@
+{
+  "name": "register_user",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "update": "claudia update",
+    "deploy": "claudia create --region eu-central-1 --api-module index",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "claudia": "^2.14.3",
+    "claudia-api-builder": "^2.5.1"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "name": "webhook",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "create": "claudia create --region eu-central-1 --api-module index --name digital_logistics_02",
+    "configure": "claudia update --configure-fb-bot",
+    "update": "claudia update"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "claudia": "^2.14.3",
+    "claudia-bot-builder": "^2.15.0"
+  }
+}

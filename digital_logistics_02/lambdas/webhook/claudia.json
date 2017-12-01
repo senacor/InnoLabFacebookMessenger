@@ -1,0 +1,11 @@
+{
+  "lambda": {
+    "role": "digital_logistics_02-executor",
+    "name": "digital_logistics_02",
+    "region": "eu-central-1"
+  },
+  "api": {
+    "id": "hk5uzdyl2g",
+    "module": "index"
+  }
+}
