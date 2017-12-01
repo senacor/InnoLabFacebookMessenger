@@ -1,0 +1,11 @@
+{
+  "lambda": {
+    "role": "bare-metal_chatbot-executor",
+    "name": "bare-metal_chatbot",
+    "region": "eu-central-1"
+  },
+  "api": {
+    "id": "kobolttxjb",
+    "module": "index"
+  }
+}
