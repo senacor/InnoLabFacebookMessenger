@@ -28,28 +28,29 @@
 
             // Our events and their handling
             $(document).ready(function() {
-                $('#authFb').click(function(event) {
-                    event.preventDefault();
-
-                    FB.login(function (response) {
-                        if (response.authResponse) {
-                            console.log('Welcome!  Fetching your information.... ');
-                            FB.api('/me', function (response) {
-                                $('#name').html(response.name);
-                                showSection('user');
-                            });
-                        } else {
-                            showSection('error');
-                        }
-                    });
-                });
-
                 $('#login').click(function() {
                     var accountLinkingToken = getUrlParameter('account_linking_token');
                     var redirectUri = getUrlParameter('redirect_uri');
-                    var authorizationCode = '123' // TODO this should be public user id, e.g. from Cognito?
-                    
-                    window.location.replace(redirectUri + '=' + accountLinkingToken + '&authorization_code=' + authorizationCode);
+                    var username = $('#password').val();
+                    var email = $('#email').val();
+
+                    $.ajax({
+                        url: 'https://b22ety8ot3.execute-api.eu-central-1.amazonaws.com/latest/',
+                        type: 'POST',
+                        data: JSON.stringify({email: email, password: password}),
+                        success: function(result) {
+                            try {
+                                result = JSON.parse(result);
+                            } catch(e) {
+                                console.log('Unexpected result format');
+                            }
+
+                            window.location.replace(redirectUri + '=' + accountLinkingToken + '&authorization_code=' + result.authorizationCode);
+                        },
+                        error: function(xhr, status, error) {
+                            console.log('error', error);
+                        }
+                    });
                 });
 
                 function showSection(name) {
