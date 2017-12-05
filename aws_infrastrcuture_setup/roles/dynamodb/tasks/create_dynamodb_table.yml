@@ -1,0 +1,53 @@
+---
+
+- name: "Create the dynamodb table: {{ table.name }}"
+  dynamodb_table:
+    name: "{{ table.name }}"
+    region: "{{region}}"
+    hash_key_name: "{{ table.hash_key_name }}"
+    hash_key_type: "{{ table.hash_key_type }}"
+    range_key_name: "{{ table.range_key_name }}"
+    range_key_type: "{{ table.range_key_type }}"
+    read_capacity: "{{ table.read_capacity }}"
+    write_capacity: "{{ table.write_capacity }}"
+    tags:
+      tag_costcenter: tecco
+
+- name: Should install trigger
+  block:
+    - name: enable stream fpr table digital_logistics_parcel_2
+      shell: |
+        aws dynamodb update-table \
+            --region {{region}}  \
+            --table-name {{ table.name }} \
+            --stream-specification StreamEnabled=true,StreamViewType={{ table.trigger.stream_view_type }}
+      register: stream_active
+      changed_when: "'Table already has an enabled stream' not in stream_active.stderr and 'Table has no stream to disable' not in stream_active.stderr"
+      failed_when: "stream_active.rc == 255 and 'Table already has an enabled stream' not in stream_active.stderr and 'Table has no stream to disable' not in stream_active.stderr"
+
+    - name: enable stream fpr table digital_logistics_parcel_2
+      shell: |
+        aws dynamodb describe-table \
+            --region {{region}}  \
+            --table-name {{ table.name }}
+      register: stream_name
+      ignore_error: yes
+      changed_when: false
+
+    - name: Set stream ARN to variables
+      set_fact:
+        stream_arn: "{{stream_name.stdout | from_json | json_query('Table.LatestStreamArn')}}"
+
+    - name: DynamoDB stream event mapping
+      lambda_event:
+        region: "{{region}}"
+        state: "{{ state | default('present') }}"
+        event_source: stream
+        function_name: "arn:aws:lambda:{{ region }}:{{ account }}:function:{{ table.trigger.function_name }}"
+        source_params:
+          source_arn: "{{stream_arn}}"
+          enabled: True
+          batch_size: 1
+          starting_position: TRIM_HORIZON
+
+  when: table.trigger.enabled

@@ -1,0 +1,7 @@
+---
+# tasks file for dynamodb
+
+- include_tasks: create_dynamodb_table.yml
+  vars:
+      - table: "{{ item }}"
+  with_items: "{{tables}}"
