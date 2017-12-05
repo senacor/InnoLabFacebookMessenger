@@ -41,7 +41,7 @@ tables:
       enabled: true
       stream_view_type: NEW_AND_OLD_IMAGES
       function_name: update_parcel_status_test
-``
+```
 
 Example Playbook
 ----------------
