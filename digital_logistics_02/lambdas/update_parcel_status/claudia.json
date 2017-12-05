@@ -1,7 +1,7 @@
 {
   "lambda": {
-    "role": "update_parcel_status-executor",
-    "name": "update_parcel_status",
+    "role": "digital_logistics_update_parcel_status-executor",
+    "name": "digital_logistics_update_parcel_status",
     "region": "eu-central-1"
   }
 }
