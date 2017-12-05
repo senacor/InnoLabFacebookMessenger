@@ -1,0 +1,90 @@
+<!DOCTYPE HTML>
+
+<html>
+    <head>
+        <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>Digital Logistics</title>
+    </head>
+
+    <body>
+        <script>
+            // Functions we need
+            var getUrlParameter = function getUrlParameter(sParam) {
+                var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+                    sURLVariables = sPageURL.split('&'),
+                    sParameterName,
+                    i;
+
+                for (i = 0; i < sURLVariables.length; i++) {
+                    sParameterName = sURLVariables[i].split('=');
+
+                    if (sParameterName[0] === sParam) {
+                        return sParameterName[1] === undefined ? true : sParameterName[1];
+                    }
+                }
+            };
+
+            // Our events and their handling
+            $(document).ready(function() {
+                $('#login').click(function() {
+                    var accountLinkingToken = getUrlParameter('account_linking_token');
+                    var redirectUri = getUrlParameter('redirect_uri');
+                    var username = $('#password').val();
+                    var email = $('#email').val();
+
+                    $.ajax({
+                        url: 'https://b22ety8ot3.execute-api.eu-central-1.amazonaws.com/latest/',
+                        type: 'POST',
+                        data: JSON.stringify({email: email, password: password}),
+                        success: function(result) {
+                            try {
+                                result = JSON.parse(result);
+                            } catch(e) {
+                                console.log('Unexpected result format');
+                            }
+
+                            window.location.replace(redirectUri + '=' + accountLinkingToken + '&authorization_code=' + result.authorizationCode);
+                        },
+                        error: function(xhr, status, error) {
+                            console.log('error', error);
+                        }
+                    });
+                });
+
+                function showSection(name) {
+                    $('section').hide();
+                    $('#' + name).show();
+                }
+
+                showSection('digitalLogisticLogin');
+            });
+        </script>
+
+        <style>
+            section {
+                display: none;
+            }
+        </style>
+
+        <section id="digitalLogisticLogin">
+            <form>
+                <label for="email">E-Mail</label>
+                <input type="text" name="email" id="email">
+                <label for="password">Password</label>
+                <input type="password" name="password" id="password">
+                <label for="register">Login</label>
+                <input type="button" name="login" id="login" value="Login">
+            </form>
+        </section>
+
+        <section id="error">
+            <p>An error occurred</p>
+        </section>
+
+        <section id="user">
+            <p>Nice to see you <span id="name"></span></p>
+        </section>
+    </body>
+</html>
