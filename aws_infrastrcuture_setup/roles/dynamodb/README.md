@@ -6,33 +6,59 @@ Create the dynamodb tables and add the trigger to lambda functions
 Requirements
 ------------
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+This Project needs an install AWS CLI with Boto, ideally use this docker commandline as discribed here: https://github.com/kochp/ansible-aws-bash
+
+    docker run -ti -v $(pwd):/project -v ~/.aws:/root/.aws -v $HOME/.ssh:/root/.ssh  -v /var/run/docker.sock:/var/run/docker.sock kochp/ansible-aws-bash:v1.6 bash
+
 
 Role Variables
 --------------
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+These variables are defined in the defaults to created the dynamodb tables and connect the trigger to a existing lambda.
 
-Dependencies
-------------
+```yaml
+region: eu-central-1
+account: 604370441254
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+tables:
+  - name: digital_logistics_parcel_2
+    hash_key_name: parcel_id
+    hash_key_type: STRING
+    range_key_name: parcel_create_time
+    range_key_type: STRING
+    read_capacity: 2
+    write_capacity: 2
+    trigger:
+      enabled: false
+  - name: digital_logistics_customer_2
+    hash_key_name: customer_id
+    hash_key_type: STRING
+    range_key_name: ''
+    range_key_type: STRING
+    read_capacity: 2
+    write_capacity: 2
+    trigger:
+      enabled: true
+      stream_view_type: NEW_AND_OLD_IMAGES
+      function_name: update_parcel_status_test
+``
 
 Example Playbook
 ----------------
 
 Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
 
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
+```yaml
+        - hosts: localhost
+          connection: local
+          roles:
+            - ../../dynamodb
+```
 
-License
--------
 
-BSD
+Test Playbook
+-------------
 
-Author Information
-------------------
+Run the follwoing command in the root of the role to test this role:
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+    ansible-playbook tests/test.yml
