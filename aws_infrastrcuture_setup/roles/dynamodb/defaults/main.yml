@@ -17,6 +17,8 @@ tables:
   - name: digital_logistics_customer_2
     hash_key_name: customer_id
     hash_key_type: STRING
+    range_key_name: ''
+    range_key_type: STRING
     read_capacity: 2
     write_capacity: 2
     trigger:

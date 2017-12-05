@@ -20,7 +20,7 @@
         aws dynamodb update-table \
             --region {{region}}  \
             --table-name {{ table.name }} \
-            --stream-specification StreamEnabled=true,StreamViewType={{ table.trigger.function_name }}
+            --stream-specification StreamEnabled=true,StreamViewType={{ table.trigger.stream_view_type }}
       register: stream_active
       changed_when: "'Table already has an enabled stream' not in stream_active.stderr and 'Table has no stream to disable' not in stream_active.stderr"
       failed_when: "stream_active.rc == 255 and 'Table already has an enabled stream' not in stream_active.stderr and 'Table has no stream to disable' not in stream_active.stderr"
@@ -43,7 +43,7 @@
         region: "{{region}}"
         state: "{{ state | default('present') }}"
         event_source: stream
-        function_name: "arn:aws:lambda:{{ region }}:{{ account }}:function:{{ lambda_function_name }}"
+        function_name: "arn:aws:lambda:{{ region }}:{{ account }}:function:{{ table.trigger.function_name }}"
         source_params:
           source_arn: "{{stream_arn}}"
           enabled: True
