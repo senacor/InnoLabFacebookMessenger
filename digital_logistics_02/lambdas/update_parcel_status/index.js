@@ -1,13 +1,87 @@
-'use strict';
+'use strict'
 
-console.log('Loading function');
+const botBuilder = require('claudia-bot-builder')
+const fbReply = require('claudia-bot-builder/lib/facebook/reply')
+const AWS = require('aws-sdk')
+const doc = require('dynamodb-doc')
 
-exports.handler = (event, context, callback) => {
-    console.log('Received event:', JSON.stringify(event, null, 2));
+const parse = AWS.DynamoDB.Converter.output
+const dynamoDb = new doc.DynamoDB()
+
+const fbTemplate = botBuilder.fbTemplate
+
+console.log('Loading function')
+
+const hasAnyStatusChanged = (oldStatus, newStatus) => 
+    oldStatus.map((val, i) => val.Status !== newStatus[i].Status).some(val => val)
+
+const findFbPsid = (customer_id, success_callback, no_result_callback, error_callback) =>
+    dynamoDb.query({
+        ExpressionAttributeValues:  {
+            ':v1': customer_id
+        },
+        KeyConditionExpression: 'customer_id = :v1',
+        TableName: 'digital_logistics_customer'
+    },
+    (err, data) => {
+        if (err) {
+            error_callback(err)
+        } else if (data.Items.length === 0) {
+            no_result_callback()
+        }
+        else {
+            success_callback(data)
+        }
+    })
+
+const buildStatusMessage = (parcel_id, status) =>
+    new fbTemplate.List()
+        .addBubble('Sendungsstatus', `Auftragsnummer: ${parcel_id}`)
+        .addImage(`https://s3.eu-central-1.amazonaws.com/digital-logistic-web/01_pacel_received_${status[0].Status}.png`)
+        .addBubble('Transport zum Paktezentrum', `${status[1].description}`)
+        .addImage(`https://s3.eu-central-1.amazonaws.com/digital-logistic-web/02_parcel_transport_${status[1].Status}.png`)
+        .addBubble('Bearbeitung im Paketzentrum', `${status[2].description}`)
+        .addImage(`https://s3.eu-central-1.amazonaws.com/digital-logistic-web/03_parcel_factroy_${status[2].Status}.png`)
+        .addBubble('In Zustellung', `${status[3].description}`)
+        .addImage(`https://s3.eu-central-1.amazonaws.com/digital-logistic-web/04_parcel_delivery_${status[3].Status}.png`)
+        .get()
+
+const sendFacebookMessage = (parcel_id, customer, status) => {
+    const FB_ACCESS_TOKEN = process.env.FB_ACCESS_TOKEN
+    if (FB_ACCESS_TOKEN === undefined) {
+        console.log('Cannot send facebook message. FB_ACCESS_TOKEN not set.')
+    } else {
+        const fb_psid = customer.Items[0].fb_psid
+        const customer_id = customer.Items[0].customer_id
+        if (fb_psid === undefined) {
+            console.log(`Customer ${customer_id} is not connected to Facebook`)
+        } else {
+            console.log(`Notifiy customer ${customer_id} via facebook psid ${fb_psid}`)
+            const messages = ['Der Status eines Ihrer Pakete wurde aktualisiert!', buildStatusMessage(parcel_id, status)]
+            fbReply(fb_psid, messages, FB_ACCESS_TOKEN)
+        }
+    }
+}
+
+exports.handler = event => {
+    console.log('Received event:', JSON.stringify(event, null, 2))
     event.Records.forEach((record) => {
-        console.log(record.eventID);
-        console.log(record.eventName);
-        console.log('DynamoDB Record: %j', record.dynamodb);
-    });
-    callback(null, `Successfully processed ${event.Records.length} records.`);
-};
+        if (record.eventName === 'INSERT') {
+            console.log('Event INSERT. New Parcel!')
+        }
+        else if (record.eventName === 'MODIFY') {
+            console.log('Event MODIFY. Status Update?')
+            const oldStatus = parse({ 'M': record.dynamodb.OldImage }).Status
+            const newStatus = parse({ 'M': record.dynamodb.NewImage }).Status
+            if (hasAnyStatusChanged(oldStatus, newStatus)) {
+                console.log('Status changed!')
+                findFbPsid(
+                    record.dynamodb.Keys.parcel_customer_id.S,
+                    customer => sendFacebookMessage(record.dynamodb.Keys.parcel_customer_id.S, customer, newStatus),
+                    () => console.log(`Customer not found: ${record.dynamodb.Keys.parcel_customer_id.S}`),
+                    error => console.log(`Error looking up customer: ${error}`)
+                )
+            }
+        }
+    })
+}
