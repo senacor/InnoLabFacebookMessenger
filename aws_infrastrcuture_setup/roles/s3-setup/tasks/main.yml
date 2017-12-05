@@ -1,0 +1,20 @@
+---
+# tasks file for s3-setup
+
+- name: Create S3 Bucket for storing Web ressources
+  s3_bucket:
+    name: "{{ bucket_name }}"
+    region: "{{region}}"
+    tags:
+      costcenter: tecco
+
+- name: syncronize all images
+  s3_sync:
+    bucket: "{{ bucket_name }}"
+    region: "{{region}}"
+    file_root: "{{item.file_root}}"
+    key_prefix: "{{item.key_prefix}}"
+    permission: "{{item.permission}}"
+    cache_control: "{{item.cache_control}}"
+    include: "{{item.include}}"
+  with_items: "{{ file_syncs }}"
