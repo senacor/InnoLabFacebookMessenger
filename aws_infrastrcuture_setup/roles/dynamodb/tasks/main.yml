@@ -1,0 +1,65 @@
+---
+# tasks file for dynamodb
+
+- name: "Create the dynamodb table: digital_logistics_parcel_2"
+  dynamodb_table:
+    name: digital_logistics_parcel_2
+    region: "{{region}}"
+    hash_key_name: parcel_id
+    hash_key_type: STRING
+    range_key_name: parcel_create_time
+    range_key_type: STRING
+    read_capacity: 2
+    write_capacity: 2
+    tags:
+      costcenter: tecco
+
+- name: "Create the dynamodb table: digital_logistics_customer_2"
+  dynamodb_table:
+    name: digital_logistics_customer_2
+    region: "{{region}}"
+    hash_key_name: customer_id
+    hash_key_type: STRING
+    read_capacity: 2
+    write_capacity: 2
+    tags:
+      tag_costcenter: tecco
+
+- name: enable stream fpr table digital_logistics_parcel_2
+  shell: |
+    aws dynamodb update-table \
+        --region {{region}}  \
+        --table-name digital_logistics_parcel_2 \
+        --stream-specification StreamEnabled=true,StreamViewType=NEW_AND_OLD_IMAGES
+  register: stream_active
+  ignore_error: yes
+  changed_when: "'Table already has an enabled stream' not in stream_active.stderr and 'Table has no stream to disable' not in stream_active.stderr"
+  failed_when: "stream_active.rc == 255 and 'Table already has an enabled stream' not in stream_active.stderr and 'Table has no stream to disable' not in stream_active.stderr"
+
+- name: enable stream fpr table digital_logistics_parcel_2
+  shell: |
+    aws dynamodb describe-table \
+        --region {{region}}  \
+        --table-name digital_logistics_parcel_2
+  register: stream_name
+  ignore_error: yes
+  changed_when: false
+  tags: stream
+
+- name: Set stream ARN to variables
+  set_fact:
+    stream_arn: "{{stream_name.stdout | from_json | json_query('Table.LatestStreamArn')}}"
+  tags: stream
+
+- name: DynamoDB stream event mapping
+  lambda_event:
+    region: "{{region}}"
+    state: "{{ state | default('present') }}"
+    event_source: stream
+    function_name: "arn:aws:lambda:{{ region }}:{{ account }}:function:{{ lambda_function_name }}"
+    source_params:
+      source_arn: "{{stream_arn}}"
+      enabled: True
+      batch_size: 1
+      starting_position: TRIM_HORIZON
+  tags: stream

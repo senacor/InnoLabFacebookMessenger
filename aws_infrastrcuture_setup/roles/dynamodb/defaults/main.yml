@@ -1,0 +1,25 @@
+---
+# defaults file for dynamodb
+
+region: eu-central-1
+account: 604370441254
+
+tables:
+  - name: digital_logistics_parcel_2
+    hash_key_name: parcel_id
+    hash_key_type: STRING
+    range_key_name: parcel_create_time
+    range_key_type: STRING
+    read_capacity: 2
+    write_capacity: 2
+    trigger:
+      enabled: false
+  - name: digital_logistics_customer_2
+    hash_key_name: customer_id
+    hash_key_type: STRING
+    read_capacity: 2
+    write_capacity: 2
+    trigger:
+      enabled: true
+      stream_view_type: NEW_AND_OLD_IMAGES
+      function_name: update_parcel_status_test
