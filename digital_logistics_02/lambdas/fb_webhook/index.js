@@ -3,13 +3,14 @@ const {fbTemplate} = require('claudia-bot-builder')
 const objectPath = require('object-path')
 const AWS = require('aws-sdk')
 const DOC = require('dynamodb-doc')
+const conversation = require('./conversation')
 
 AWS.config.update({region: 'eu-central-1'})
 const docClient = new DOC.DynamoDB()
 
 const STATI = {
-  LOGGED_ID: 'loggedIn',
-  LOGGED_OUT: 'loggedOut'
+    LOGGED_ID: 'loggedIn',
+    LOGGED_OUT: 'loggedOut'
 }
 
 /**
@@ -18,27 +19,27 @@ const STATI = {
  * @returns Promise.<{Object}> user from db
  */
 const getUserByAuthorizationCode = authCode => new Promise((resolve, reject) => {
-  const query = {
-    TableName: 'digital_logistics_customer',
-    ExpressionAttributeValues: {
-      ':authorization_code': authCode
-    },
-    FilterExpression: 'authorization_code = :authorization_code'
-  }
-
-  docClient.scan(query, (err, data) => {
-    if (err) {
-      return reject(err)
+    const query = {
+        TableName: 'digital_logistics_customer',
+        ExpressionAttributeValues: {
+            ':authorization_code': authCode
+        },
+        FilterExpression: 'authorization_code = :authorization_code'
     }
 
-    const users = data.Items
+    docClient.scan(query, (err, data) => {
+        if (err) {
+            return reject(err)
+        }
 
-    if (users.length !== 1) {
-      return reject(new Error(`Unexpected amount (${users.length}) of users for auth code ${authCode}`))
-    }
+        const users = data.Items
 
-    return resolve(users[0])
-  })
+        if (users.length !== 1) {
+            return reject(new Error(`Unexpected amount (${users.length}) of users for auth code ${authCode}`))
+        }
+
+        return resolve(users[0])
+    })
 })
 
 /**
@@ -47,27 +48,27 @@ const getUserByAuthorizationCode = authCode => new Promise((resolve, reject) => 
  * @returns Promise.<{Object}> user from db
  */
 const getUserByPsid = psid => new Promise((resolve, reject) => {
-  const scan = {
-    TableName: 'digital_logistics_customer',
-    ExpressionAttributeValues: {
-      ':fb_psid': psid
-    },
-    FilterExpression: 'fb_psid = :fb_psid'
-  }
-
-  docClient.scan(scan, (err, data) => {
-    if (err) {
-      return reject(err)
+    const scan = {
+        TableName: 'digital_logistics_customer',
+        ExpressionAttributeValues: {
+            ':fb_psid': psid
+        },
+        FilterExpression: 'fb_psid = :fb_psid'
     }
 
-    const users = data.Items
+    docClient.scan(scan, (err, data) => {
+        if (err) {
+            return reject(err)
+        }
 
-    if (users.length !== 1) {
-      return reject(new Error(`Unexpected amount (${users.length}) of users for psid code ${psid}`))
-    }
+        const users = data.Items
 
-    return resolve(users[0])
-  })
+        if (users.length !== 1) {
+            return reject(new Error(`Unexpected amount (${users.length}) of users for psid code ${psid}`))
+        }
+
+        return resolve(users[0])
+    })
 })
 
 /**
@@ -76,27 +77,27 @@ const getUserByPsid = psid => new Promise((resolve, reject) => {
  * @returns Promise.<{Object}> resolves with an object of all new user's attributes
  */
 const setPsidAndAuthCode = user => new Promise((resolve, reject) => {
-  const update = {
-    TableName: 'digital_logistics_customer',
-    Key: {
-      'email': user.email,
-      'customer_id': user.customer_id
-    },
-    UpdateExpression: 'set authorization_code = :r, fb_psid = :f',
-    ExpressionAttributeValues: {
-      ':r': user.authorization_code,
-      ':f': user.fb_psid
-    },
-    ReturnValues: 'ALL_NEW'
-  }
-
-  docClient.updateItem(update, (err, data) => {
-    if (err) {
-      return reject(err)
+    const update = {
+        TableName: 'digital_logistics_customer',
+        Key: {
+            'email': user.email,
+            'customer_id': user.customer_id
+        },
+        UpdateExpression: 'set authorization_code = :r, fb_psid = :f',
+        ExpressionAttributeValues: {
+            ':r': user.authorization_code,
+            ':f': user.fb_psid
+        },
+        ReturnValues: 'ALL_NEW'
     }
 
-    return resolve(data)
-  })
+    docClient.updateItem(update, (err, data) => {
+        if (err) {
+            return reject(err)
+        }
+
+        return resolve(data)
+    })
 })
 
 /**
@@ -105,23 +106,49 @@ const setPsidAndAuthCode = user => new Promise((resolve, reject) => {
  * @param {*} field field to remove in db
  */
 const removeFieldInDb = (user, field) => new Promise((resolve, reject) => {
-  const remove = {
-    TableName: 'digital_logistics_customer',
-    Key: {
-      'email': user.email,
-      'customer_id': user.customer_id
-    },
-    UpdateExpression: `remove ${field}`
-  }
-
-  docClient.updateItem(remove, (err, data) => {
-    if (err) {
-      return reject(err)
+    const remove = {
+        TableName: 'digital_logistics_customer',
+        Key: {
+            'email': user.email,
+            'customer_id': user.customer_id
+        },
+        UpdateExpression: `remove ${field}`
     }
 
-    return resolve(data)
-  })
+    docClient.updateItem(remove, (err, data) => {
+        if (err) {
+            return reject(err)
+        }
+
+        return resolve(data)
+    })
 })
+
+const linkAccount = request => {
+    console.log('Received linking event:', JSON.stringify(request))
+    
+    const authCode = objectPath.get(request, 'originalRequest.account_linking.authorization_code')
+    if (!authCode || authCode === '') {
+        console.log('No or empty auth code provided!')
+        return Promise.reject()
+    }
+    
+    return getUserByAuthorizationCode(authCode)
+        .then(user => {
+            user.fb_psid = objectPath.get(request, 'originalRequest.sender.id')
+    
+            return user
+        })
+        .then(user => setPsidAndAuthCode(user).then(() => user))
+        .then(user => removeFieldInDb(user, 'authorization_code'))
+        .then(() => null) // Return nothing
+}
+
+const unlinkAccount = request => {
+    return getUserByPsid(objectPath.get(request, 'originalRequest.sender.id'))
+        .then(user => removeFieldInDb(user, 'fb_psid'))
+        .then(() => null) // Return nothing
+}
 
 /**
  * Returns status for being logged in or logged out, evaluated by psid
@@ -129,62 +156,45 @@ const removeFieldInDb = (user, field) => new Promise((resolve, reject) => {
  * @returns Promise.<{String}> resolves with a string, representing the status
  */
 const getLoginStatus = psid => getUserByPsid(psid)
-  .then(() => STATI.LOGGED_IN)
-  .catch(() => STATI.LOGGED_OUT)
+    .then(() => STATI.LOGGED_IN)
+    .catch(() => STATI.LOGGED_OUT)
 
 module.exports = botBuilder(request => {
-  if (objectPath.has(request, 'originalRequest.message')) {
-    const message = objectPath.get(request, 'originalRequest.message.text')
+    console.log(request)
+    if (objectPath.has(request, 'originalRequest.message')) {
+        const message = objectPath.get(request, 'originalRequest.message.text')
 
-    if (message.includes('login')) {
-      return getLoginStatus(objectPath.get(request, 'originalRequest.sender.id'))
-        .then(status => {
-          if (status === STATI.LOGGED_IN) {
-            return 'Sorry dude, you already are logged in!'
-          }
+        if (message.toLowerCase() === 'login') {
+            return getLoginStatus(objectPath.get(request, 'originalRequest.sender.id'))
+                .then(status => {
+                    if (status === STATI.LOGGED_IN) {
+                        return 'Sie sind schon eingeloggt.'
+                    }
 
-          return new fbTemplate.Button('Login because bla bla bla')
-            .addLoginButton('https://s3.eu-central-1.amazonaws.com/digital-logistic-web/login.html')
-            .get()
-        })
-    } else if (message.includes('logout')) {
-      return getLoginStatus(objectPath.get(request, 'originalRequest.sender.id'))
-        .then(status => {
-          if (status === STATI.LOGGED_OUT) {
-            return 'Sorry dude, you already are logged out!'
-          }
+                    return new fbTemplate.Button('Verknüpfen Sie ihren Digital Logistics Account')
+                        .addLoginButton('https://s3.eu-central-1.amazonaws.com/digital-logistic-web/login.html')
+                        .get()
+                })
+        } else if (message.toLowerCase() === 'logout') {
+            return getLoginStatus(objectPath.get(request, 'originalRequest.sender.id'))
+                .then(status => {
+                    if (status === STATI.LOGGED_OUT) {
+                        return 'Sie sind aktuell nicht eingeloggt.'
+                    }
 
-          return new fbTemplate.Button('Logout because blu blu blu')
-            .addLogoutButton()
-            .get()
-        })
+                    return new fbTemplate.Button('Account Verknüpfung mit Digital Logistics aufheben.')
+                        .addLogoutButton()
+                        .get()
+                })
+        } else {
+            return conversation(request.text)
+        }
+    } else if (objectPath.has(request, 'originalRequest.account_linking') && objectPath.get(request, 'originalRequest.account_linking.status') === 'linked') {
+        return linkAccount(request)
+    } else if (objectPath.has(request, 'originalRequest.account_linking') && objectPath.get(request, 'originalRequest.account_linking.status') === 'unlinked') {
+        return unlinkAccount(request)
     } else {
-      return Promise.resolve('Hi there')
+        console.log('Unexpected event')
+        return Promise.reject()
     }
-  } else if (objectPath.has(request, 'originalRequest.account_linking') && objectPath.get(request, 'originalRequest.account_linking.status') === 'linked') {
-    console.log('Received linking event:', JSON.stringify(request))
-
-    const authCode = objectPath.get(request, 'originalRequest.account_linking.authorization_code')
-    if (!authCode || authCode === '') {
-      console.log('No or empty auth code provided!')
-      return Promise.reject()
-    }
-
-    return getUserByAuthorizationCode(authCode)
-      .then(user => {
-        user.fb_psid = objectPath.get(request, 'originalRequest.sender.id')
-
-        return user
-      })
-      .then(user => setPsidAndAuthCode(user).then(() => user))
-      .then(user => removeFieldInDb(user, 'authorization_code'))
-      .then(() => null) // Return nothing
-  } else if (objectPath.has(request, 'originalRequest.account_linking') && objectPath.get(request, 'originalRequest.account_linking.status') === 'unlinked') {
-    return getUserByPsid(objectPath.get(request, 'originalRequest.sender.id'))
-      .then(user => removeFieldInDb(user, 'fb_psid'))
-      .then(() => null) // Return nothing
-  } else {
-    console.log('Unexpected event')
-    return Promise.reject()
-  }
 }, {platforms: ['facebook']})
