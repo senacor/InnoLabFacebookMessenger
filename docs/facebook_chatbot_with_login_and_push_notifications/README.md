@@ -4,6 +4,8 @@ We recommend to read [POC 1 - Facebook Chatbot using Claudia.js in 5 Minutes](./
 
 [This Chatbot](./../digital_logistics_02) extends the POC 1 Chatbot ([Code](./../digital_logistics_01)) with the ability to link your Facebook account to our fake company's "Digital Logistics" account by logging in and out and pushing parcel status update notifications.
 
+In addition to all the tools like Claudia.js, Lambdas, Node.js, API Gateways, etc. we already used previously, we [used AWS's DynamoDb](./../dynamoDb) for triggering parcel change events and storing user data.
+
 ## Account linking
 
 Sometimes you need to verify the customer you are talking with via Facebook is exactly the same a certain customer in your company's database is. This can be important if you are sending personal information or allowing the customer to start buying processes via Facebook.
@@ -16,6 +18,8 @@ Facebook provides [workflows for account (un-)linking](https://developers.facebo
 ![Link Facebook and Company](./link.png)
 3. Once linking is complete, redirect users to the location provided by redirect_uri and append a authorization_code parameter (defined by you) to confirm linking.
 ![Facebook linking notification](./logged_in.png)
+
+### Process flow
 
 In our architecture two AWS lambdas, Facebook and a static HTML page for the Digital Logistics Login are needed to implement the process above.
 
@@ -32,4 +36,8 @@ In our architecture two AWS lambdas, Facebook and a static HTML page for the Dig
 
 ## Account unlinking
 
+TODO
+
 ## Pushing notifications
+
+TODO
