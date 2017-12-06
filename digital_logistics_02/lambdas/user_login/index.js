@@ -16,28 +16,28 @@ const docClient = new DOC.DynamoDB()
  * @returns Promise.<{Object}> resolves with user
  */
 const findUser = email => new Promise((resolve, reject) => {
-  const query = {
-    TableName: 'digital_logistics_customer',
-    IndexName: 'email-index',
-    KeyConditionExpression: 'email = :hkey',
-    ExpressionAttributeValues: {
-      ':hkey': email
-    }
-  }
-
-  docClient.query(query, (err, data) => {
-    if (err) {
-      return reject(err)
+    const query = {
+        TableName: 'digital_logistics_customer',
+        IndexName: 'email-index',
+        KeyConditionExpression: 'email = :hkey',
+        ExpressionAttributeValues: {
+            ':hkey': email
+        }
     }
 
-    const users = data.Items
+    docClient.query(query, (err, data) => {
+        if (err) {
+            return reject(err)
+        }
 
-    if (users.length !== 1) {
-      return reject(`Unexpected amount (${users.length}) of users for email ${email}`)
-    }
+        const users = data.Items
 
-    return resolve(users[0])
-  })
+        if (users.length !== 1) {
+            return reject(`Unexpected amount (${users.length}) of users for email ${email}`)
+        }
+
+        return resolve(users[0])
+    })
 })
 
 /**
@@ -46,26 +46,26 @@ const findUser = email => new Promise((resolve, reject) => {
  * @returns Promise.<{Object}> resolves with an object containing all user's attributes
  */
 const setAuthCode = user => new Promise((resolve, reject) => {
-  const update = {
-    TableName: 'digital_logistics_customer',
-    Key: {
-      'email': user.email,
-      'customer_id': user.customer_id
-    },
-    UpdateExpression: 'set authorization_code = :r',
-    ExpressionAttributeValues: {
-      ':r': [...Array(10)].map(() => Math.random().toString(36)[3]).join('') // 10 random chars: https://stackoverflow.com/questions/1349404/generate-random-string-characters-in-javascript
-    },
-    ReturnValues: 'ALL_NEW'
-  }
-
-  docClient.updateItem(update, (err, data) => {
-    if (err) {
-      return reject(err)
+    const update = {
+        TableName: 'digital_logistics_customer',
+        Key: {
+            'email': user.email,
+            'customer_id': user.customer_id
+        },
+        UpdateExpression: 'set authorization_code = :r',
+        ExpressionAttributeValues: {
+            ':r': [...Array(10)].map(() => Math.random().toString(36)[3]).join('') // 10 random chars: https://stackoverflow.com/questions/1349404/generate-random-string-characters-in-javascript
+        },
+        ReturnValues: 'ALL_NEW'
     }
 
-    return resolve(data)
-  })
+    docClient.updateItem(update, (err, data) => {
+        if (err) {
+            return reject(err)
+        }
+
+        return resolve(data)
+    })
 })
 
 /**
@@ -74,27 +74,27 @@ const setAuthCode = user => new Promise((resolve, reject) => {
  * @returns Promise.<{{authorizationCode: String}|{error: String}}> resolves with an object containing the authorization code or an error message
  */
 const userLogin = req => {
-  let data
-  try {
-    data = JSON.parse(req.body)
-  } catch (e) {
-    return JSON.stringify({error: 'Could not parse payload'})
-  }
+    let data
+    try {
+        data = JSON.parse(req.body)
+    } catch (e) {
+        return JSON.stringify({error: 'Could not parse payload'})
+    }
 
-  return findUser(data.email)
-    .then(user => {
-      if (user.password !== crypto.createHash('sha1').update(data.password).digest('hex')) {
-        throw new Error('Password incorrect')
-      }
-      return user
-    })
-    .then(user => setAuthCode(user))
-    .then(updateResult => ({authorizationCode: objectPath.get(updateResult, 'Attributes.authorization_code')}))
-    .catch(err => {
-      console.log(err)
-      return {error: 'Could not login'}
-    })
-    .then(msg => JSON.stringify(msg))
+    return findUser(data.email)
+        .then(user => {
+            if (user.password !== crypto.createHash('sha1').update(data.password).digest('hex')) {
+                throw new Error('Password incorrect')
+            }
+            return user
+        })
+        .then(user => setAuthCode(user))
+        .then(updateResult => ({authorizationCode: objectPath.get(updateResult, 'Attributes.authorization_code')}))
+        .catch(err => {
+            console.log(err)
+            return {error: 'Could not login'}
+        })
+        .then(msg => JSON.stringify(msg))
 }
 
 api.post('/', req => userLogin(req))
