@@ -73,7 +73,7 @@ const setAuthCode = user => new Promise((resolve, reject) => {
  * @param {Object} req HTTP request object
  * @returns Promise.<{{authorizationCode: String}|{error: String}}> resolves with an object containing the authorization code or an error message
  */
-const requestHandler = req => {
+const userLogin = req => {
   let data
   try {
     data = JSON.parse(req.body)
@@ -97,5 +97,5 @@ const requestHandler = req => {
     .then(msg => JSON.stringify(msg))
 }
 
-api.post('/', req => requestHandler(req))
+api.post('/', req => userLogin(req))
 module.exports = api
