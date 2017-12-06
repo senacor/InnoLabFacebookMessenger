@@ -7,6 +7,11 @@ const DOC = require('dynamodb-doc')
 AWS.config.update({region: 'eu-central-1'})
 const docClient = new DOC.DynamoDB()
 
+const STATI = {
+  LOGGED_ID: 'loggedIn',
+  LOGGED_OUT: 'loggedOut'
+}
+
 /**
  * Returns a single user, queried by authorization code
  * @param {String} authCode 
@@ -42,7 +47,7 @@ const getUserByAuthorizationCode = authCode => new Promise((resolve, reject) => 
  * @returns Promise.<{Object}> user from db
  */
 const getUserByPsid = psid => new Promise((resolve, reject) => {
-  const query = {
+  const scan = {
     TableName: 'digital_logistics_customer',
     ExpressionAttributeValues: {
       ':fb_psid': psid
@@ -50,7 +55,7 @@ const getUserByPsid = psid => new Promise((resolve, reject) => {
     FilterExpression: 'fb_psid = :fb_psid'
   }
 
-  docClient.scan(query, (err, data) => {
+  docClient.scan(scan, (err, data) => {
     if (err) {
       return reject(err)
     }
@@ -118,18 +123,36 @@ const removeFieldInDb = (user, field) => new Promise((resolve, reject) => {
   })
 })
 
+const getLoginStatus = psid => getUserByPsid(psid)
+  .then(() => STATI.LOGGED_IN)
+  .catch(() => STATI.LOGGED_OUT)
+
 module.exports = botBuilder(request => {
   if (objectPath.has(request, 'originalRequest.message')) {
     const message = objectPath.get(request, 'originalRequest.message.text')
 
     if (message.includes('login')) {
-      return Promise.resolve(new fbTemplate.Button('Login because bla bla bla')
-        .addLoginButton('https://s3.eu-central-1.amazonaws.com/digital-logistic-web/login.html')
-        .get())
+      return getLoginStatus(objectPath.get(request, 'originalRequest.sender.id'))
+        .then(status => {
+          if (status === STATI.LOGGED_IN) {
+            return 'Sorry dude, you already are logged in!'
+          }
+
+          return new fbTemplate.Button('Login because bla bla bla')
+            .addLoginButton('https://s3.eu-central-1.amazonaws.com/digital-logistic-web/login.html')
+            .get()
+        })
     } else if (message.includes('logout')) {
-      return Promise.resolve(new fbTemplate.Button('Logout because blu blu blu')
-        .addLogoutButton()
-        .get())
+      return getLoginStatus(objectPath.get(request, 'originalRequest.sender.id'))
+        .then(status => {
+          if (status === STATI.LOGGED_OUT) {
+            return 'Sorry dude, you already are logged out!'
+          }
+
+          return new fbTemplate.Button('Logout because blu blu blu')
+            .addLogoutButton()
+            .get()
+        })
     } else {
       return Promise.resolve('Hi there')
     }
