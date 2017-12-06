@@ -8,25 +8,49 @@ participant Lambda "user_login"
 
 Facebook->Lambda "fb_webhook": Send message event
 
+activate Lambda "fb_webhook"
+
+activate Facebook
+
 Lambda "fb_webhook"->>Lambda "fb_webhook": Not logged in?
 
 Facebook<--Lambda "fb_webhook": Login button
+
+deactivate Lambda "fb_webhook"
 
 Facebook->>Facebook: Click on button
 
 Facebook->>Static HTML Popup: Open popup
 
+activate Static HTML Popup
+
+deactivate Facebook
+
 Static HTML Popup->Lambda "user_login": Login via e-mail and password
+
+activate Lambda "user_login"
 
 Lambda "user_login"->>Lambda "user_login": Create authorization_token
 
 Static HTML Popup<--Lambda "user_login": Confirm login and pass authorization_token
 
+deactivate Lambda "user_login"
+
+deactivate Static HTML Popup
+
 Static HTML Popup->>Static HTML Popup: Click on linking confirmation
+
+activate Static HTML Popup
 
 Static HTML Popup->>Facebook: Redirect to callback URL, passing authorization_token
 
+deactivate Static HTML Popup
+
+activate Facebook
+
 Facebook->Lambda "fb_webhook": Send linking event, containing authorization_token and psid
+
+activate Lambda "fb_webhook"
 
 Lambda "fb_webhook"->>Lambda "fb_webhook": Get user by authorization_token
 
@@ -34,4 +58,8 @@ Lambda "fb_webhook"->>Lambda "fb_webhook": Save psid
 
 Facebook<--Lambda "fb_webhook": Returning 200
 
+deactivate Lambda "fb_webhook"
+
 Facebook->>Facebook: Display login success message
+
+deactivate Facebook
