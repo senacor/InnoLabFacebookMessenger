@@ -18,7 +18,8 @@ We want to implement a chatbot for a fake company called Digital Logistic, which
 
 1. [AWS Infrastructure](docs/aws_infrastructure)
 2. [Setup Facebook Page and App](docs/setup_facebook)
-3. [POC 1 - Facebook Chatbot using Claudia.js in 5 Minutes](docs/facebook_chatbot_with_claudia_js_in_five_minutes)
-4. [POC 2 - Bare metal Facebook Chatbot](docs/bare_metal)
+3. [POC 0 - Bare metal Facebook Chatbot](docs/bare_metal)
+4. [POC 1 - Facebook Chatbot using Claudia.js in 5 Minutes](docs/facebook_chatbot_with_claudia_js_in_five_minutes)
+5. [POC 2 - Facebook Chatbot mit Login und Push Notifications](docs/facebook_chatbot_with_login_and_push_notifications)
 5. [Facebook chatbot basics](docs/fb_chatbot_basics)
-6. [Pages and Apps](docs/pages_and_apps)
+7. [Pages and Apps](docs/pages_and_apps)

@@ -1,4 +1,4 @@
-# POC - Facebook Chatbot using Claudia.js in 5 Minutes
+# POC 1 - Facebook Chatbot using Claudia.js in 5 Minutes
 
 ## Prerequisites
 * Facebook Account

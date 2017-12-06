@@ -1,0 +1,37 @@
+participant Facebook
+
+participant Lambda "fb_webhook"
+
+participant Static HTML Popup
+
+participant Lambda "user_login"
+
+Facebook->Lambda "fb_webhook": Send message event
+
+Lambda "fb_webhook"->>Lambda "fb_webhook": Not logged in?
+
+Facebook<--Lambda "fb_webhook": Login button
+
+Facebook->>Facebook: Click on button
+
+Facebook->>Static HTML Popup: Open popup
+
+Static HTML Popup->Lambda "user_login": Login via e-mail and password
+
+Lambda "user_login"->>Lambda "user_login": Create authorization_token
+
+Static HTML Popup<--Lambda "user_login": Confirm login and pass authorization_token
+
+Static HTML Popup->>Static HTML Popup: Click on linking confirmation
+
+Static HTML Popup->>Facebook: Redirect to callback URL, passing authorization_token
+
+Facebook->Lambda "fb_webhook": Send linking event, containing authorization_token and psid
+
+Lambda "fb_webhook"->>Lambda "fb_webhook": Get user by authorization_token
+
+Lambda "fb_webhook"->>Lambda "fb_webhook": Save psid
+
+Facebook<--Lambda "fb_webhook": Returning 200
+
+Facebook->>Facebook: Display login success message
