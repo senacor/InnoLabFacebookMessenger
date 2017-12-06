@@ -1,0 +1,20 @@
+---
+- hosts: localhost
+  connection: local
+  roles:
+    - s3-setup
+  vars:
+    - bucket_name: digital-logistic-web3
+    - file_syncs:
+        - name: delivery_status_images
+          file_root: ./files/images
+          key_prefix: images
+          permission: public-read
+          cache_control: "public, max-age=31536000"
+          include: "*.png"
+        - name: simple_webpage
+          file_root: ./files/frontend
+          key_prefix: ""
+          permission: public-read
+          cache_control: "public, max-age=31536000"
+          include: "*.html"
