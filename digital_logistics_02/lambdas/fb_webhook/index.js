@@ -123,6 +123,11 @@ const removeFieldInDb = (user, field) => new Promise((resolve, reject) => {
   })
 })
 
+/**
+ * Returns status for being logged in or logged out, evaluated by psid
+ * @param {string} psid page scoped facebook user id
+ * @returns Promise.<{String}> resolves with a string, representing the status
+ */
 const getLoginStatus = psid => getUserByPsid(psid)
   .then(() => STATI.LOGGED_IN)
   .catch(() => STATI.LOGGED_OUT)
