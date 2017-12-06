@@ -36,7 +36,16 @@ In our architecture two AWS lambdas, Facebook and a static HTML page for the Dig
 
 ## Account unlinking
 
-TODO
+It might be useful to unlink a company account and a Facebook messenger account, for example if the user does not want the company to store his/her facebook `psid` for contacting anymore. The unlinking process is even easier then the linking process.
+
+### Process flow
+
+1. User sends message, triggering the `fb_webhook` lambda to send a logout button
+2. User clicks on the logout button
+3. Facebook opens info modal asking the user if he/she wants to proceed
+4. If user agrees, Facebook calls `fb_webhook` lambda with an unlink event containing the user's `psid`
+5. `fb_webhook` lambda deletes user's `psid` from database and returns 200
+6. Facebook show logout success message
 
 ## Pushing notifications
 
