@@ -36,7 +36,7 @@ In our architecture two AWS lambdas, Facebook and a static HTML page for the Dig
 
 ## Account unlinking
 
-It might be useful to unlink a company account and a Facebook messenger account, for example if the user does not want the company to store his/her facebook `psid` for contacting anymore. The unlinking process is even easier then the linking process.
+It might be necessary to unlink a company account and a Facebook messenger account, for example if the user does not want the company to store his/her facebook `psid` for contacting anymore. The unlinking process is even easier then the linking process.
 
 ### Process flow
 
