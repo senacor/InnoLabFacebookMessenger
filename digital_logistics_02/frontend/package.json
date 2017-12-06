@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "deploy": "aws s3 cp ./index.html s3://digital-logistic-web --grants read=uri=http://acs.amazonaws.com/groups/global/AllUsers"
+    "loginDeploy": "aws s3 cp ./login.html s3://digital-logistic-web --grants read=uri=http://acs.amazonaws.com/groups/global/AllUsers"
   },
   "author": "",
   "license": "ISC"

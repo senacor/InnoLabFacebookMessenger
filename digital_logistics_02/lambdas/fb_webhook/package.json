@@ -1,11 +1,11 @@
 {
-  "name": "webhook",
+  "name": "fb_webhook",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "create": "claudia create --region eu-central-1 --api-module index --name digital_logistics_fb_webhook",
+    "create": "claudia create --region eu-central-1 --api-module index --name digital_logistics_fb_webhook --policies policies",
     "configure": "claudia update --configure-fb-bot",
     "update": "claudia update"
   },
@@ -15,6 +15,7 @@
     "aws-sdk": "^2.162.0",
     "claudia": "^2.14.3",
     "claudia-bot-builder": "^2.15.0",
+    "dynamodb-doc": "^1.0.0",
     "object-path": "^0.11.4"
   }
 }
