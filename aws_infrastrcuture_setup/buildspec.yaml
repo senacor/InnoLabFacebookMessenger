@@ -1,5 +1,9 @@
 version: 0.2
 
+env:
+  variables:
+    AWS_METADATA_ENDPOINT: "http://169.254.169.254:80$AWS_CONTAINER_CREDENTIALS_RELATIVE_URI"
+
 phases:
   install:
     commands:
