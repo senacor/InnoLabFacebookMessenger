@@ -2,6 +2,7 @@ const ApiBuilder = require('claudia-api-builder')
 const objectPath = require('object-path')
 const AWS = require('aws-sdk')
 const DOC = require('dynamodb-doc')
+const crypto = require('crypto')
 
 AWS.config.update({region: 'eu-central-1'})
 
@@ -82,7 +83,7 @@ const requestHandler = req => {
 
   return findUser(data.email)
     .then(user => {
-      if (user.password !== data.password) {
+      if (user.password !== crypto.createHash('sha1').update(data.password).digest('hex')) {
         throw new Error('Password incorrect')
       }
       return user
