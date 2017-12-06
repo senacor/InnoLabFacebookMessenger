@@ -1,4 +1,4 @@
-# Bare Metal Facebook Chatbot
+# POC 0 - Bare Metal Facebook Chatbot
 
 This document describes how to deploy, use and debug the [bare metal chatbot](../bare-metal_bot).
 
