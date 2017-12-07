@@ -20,8 +20,8 @@ phases:
       - npm run update
       - pwd
       - cd ..
-      - pwd
-      - cd ../register_user
+      - ls -la
+      - cd register_user
       - npm run update
       - cd ../update_parcel_status
       - npm run update
