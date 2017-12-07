@@ -24,7 +24,7 @@ const buildTemplate = (data, queried_parcel_id) => {
         .get()
 }
 
-module.exports = text => 
+module.exports = text =>
     new Promise(resolve => {
         const matchStatus = text.match(/status\D*(\d+)/i)
         if (matchStatus) {
@@ -47,7 +47,7 @@ module.exports = text =>
             } else {
                 console.log('Invalid parcel id')
                 return resolve('Ungültige Auftragsnummer. Die Auftragsnummer ist 8-stellig.')
-            } 
+            }
         }
         else {
             console.log('could not understand request')
