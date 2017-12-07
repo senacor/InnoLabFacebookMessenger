@@ -4,7 +4,7 @@ We recommend to read [POC 1 - Facebook Chatbot using Claudia.js in 5 Minutes](./
 
 [This Chatbot](./../digital_logistics_02) extends the [POC 1 Chatbot](./../facebook_chatbot_with_claudia_js_in_five_minutes) ([Code](./../digital_logistics_01)) with the ability to link your Facebook account to our fake company's "Digital Logistics" account by logging in and out and pushing parcel status update notifications to the Facebook messenger on DynamoDb changes.
 
-In addition to all the tools like Claudia.js, Lambdas, Node.js, API Gateways, etc. we already used previously, we used AWS's DynamoDb for triggering parcel change events and storing user data in this iteration. If your are interested in the challenges we solved [have a look here](./../dynamoDb).
+In addition to all the tools like Claudia.js, Lambdas, Node.js, API Gateways, etc. we already used previously, we used AWS's DynamoDb for triggering parcel change events and storing user data in this iteration. If your are interested in the challenges we solved [have a look here](./../aws_infrastructure/aws_dynamodb.md).
 
 ## Account linking
 
