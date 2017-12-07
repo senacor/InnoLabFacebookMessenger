@@ -15,10 +15,15 @@ phases:
     commands:
       - echo --------------------------
       - echo Build started on `date`
-      - cd digital_logistics_02/lambdas/fb_webhook && . /tmp/aws_cred_export.txt && npm run update
-      - cd digital_logistics_02/lambdas/register_user && . /tmp/aws_cred_export.txt && npm run update
-      - cd digital_logistics_02/lambdas/update_parcel_status && . /tmp/aws_cred_export.txt && npm run update
-      - cd digital_logistics_02/lambdas/user_login && . /tmp/aws_cred_export.txt && npm run update
+      - . /tmp/aws_cred_export.txt
+      - cd digital_logistics_02/lambdas/fb_webhook
+      - npm run update
+      - cd ../register_user
+      - npm run update
+      - cd ../update_parcel_status
+      - npm run update
+      - cd ../user_login
+      - npm run update
       - echo Build finished on `date`
       - echo --------------------------
   post_build:
