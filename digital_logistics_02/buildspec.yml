@@ -18,6 +18,9 @@ phases:
       - . /tmp/aws_cred_export.txt
       - cd digital_logistics_02/lambdas/fb_webhook
       - npm run update
+      - pwd
+      - cd ..
+      - pwd
       - cd ../register_user
       - npm run update
       - cd ../update_parcel_status
