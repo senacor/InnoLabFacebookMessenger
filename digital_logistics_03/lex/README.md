@@ -1,0 +1,1 @@
+this readme can be removed if not needed (general documentation in ../docs), I just wanted to set this folder-structure
