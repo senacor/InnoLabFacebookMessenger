@@ -1,12 +1,12 @@
 # AWS IAM
 
-## Benutzer Berechtigungen
+## User Permissions
 
 ![aws_iam_user_policies_group](aws_iam_user_policies_group.png)
 
-To give a user or a group of users the rights to administrator our infrastructure we had created the following groupe in AWS: Innolab_FBM
+To give a user or a group of users the rights to administrator our infrastructure we have created the following groupe in AWS: Innolab_FBM
 
-In this group you need the follwing policies:
+This group contains the following policies:
 
 * AWSLambdaFullAccess
 * IAMFullAccess
@@ -16,11 +16,11 @@ In this group you need the follwing policies:
 
 Add all users to this group which should be able to administer the infrastructure.
 
-## Lambda Rolle und Berechtigungen
+## Lambda Role and Permissions
 
 ![aws_lambda_role](aws_lambda_role.png)
 
-To make an lambda executable, the lambda need a role with the following inline policies:
+To make a lambda executable, the lambda need a role with the following inline policies:
 ```json
 {
     "Version": "2012-10-17",
