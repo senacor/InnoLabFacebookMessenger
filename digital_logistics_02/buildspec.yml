@@ -15,7 +15,10 @@ phases:
     commands:
       - echo Build started on `date`
       - claudia --help
-      - cd digital_logistics_02/lambdas/update_parcel_status_test && . /tmp/aws_cred_export.txt && npm run update
+      - cd digital_logistics_02/lambdas/fb_webhook && . /tmp/aws_cred_export.txt && npm run update
+      - cd digital_logistics_02/lambdas/register_user && . /tmp/aws_cred_export.txt && npm run update
+      - cd digital_logistics_02/lambdas/update_parcel_status && . /tmp/aws_cred_export.txt && npm run update
+      - cd digital_logistics_02/lambdas/user_login && . /tmp/aws_cred_export.txt && npm run update
   post_build:
     commands:
       - echo Build completed on `date`
