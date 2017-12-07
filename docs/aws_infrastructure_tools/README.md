@@ -14,7 +14,7 @@ We chose AWS in our innovation lab to provide this infrastructure. For that we u
 * DynamoDB: The database is used to store the customers and status of the parcels.
 * S3: In S3 we provide images and an authentication webpage for public access.
 
-The following picture give an overview over the used AWS components:
+The following picture gives an overview on the used AWS components:
 
 ![![](aws_components_overview.png)](aws_components_overview.png "AWS components overview")
 
