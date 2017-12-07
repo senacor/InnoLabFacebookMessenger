@@ -23,3 +23,4 @@ We want to implement a chatbot for a fake company called Digital Logistic, which
 5. [POC 0 - Bare metal Facebook Chatbot](docs/bare_metal)
 6. [POC 1 - Facebook Chatbot using Claudia.js in 5 Minutes](docs/facebook_chatbot_with_claudia_js_in_five_minutes)
 7. [POC 2 - Facebook Chatbot mit Login und Push Notifications](docs/facebook_chatbot_with_login_and_push_notifications) still TODOs!
+8. [POC 3 - Facebook Chatbot with AI](docs/facebook_chatbot_with_ai)

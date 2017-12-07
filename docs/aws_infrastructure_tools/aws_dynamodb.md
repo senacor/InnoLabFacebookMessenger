@@ -8,7 +8,7 @@ During the [Facebook linking process](./../facebook_chatbot_with_login_and_push_
 
 We perform three different operations on the DynamoDB:
 1. `query` for retrieving data by an indexed value. If you don't have the sort key of the object you want to retrieve at your hand, you can use query and only pass the partition key for this operation. It will take longer then retrieving an object by partition and sort key with a get operation, but if you don't have both keys available this is your best option.
-    ```
+    ```javascript
     const params = {
         TableName: 'digital_logistics_customer',
         IndexName: 'email-index',
@@ -24,7 +24,7 @@ We perform three different operations on the DynamoDB:
     ```
     As you can see we query users by their email. Since the field email is not the default index (customer id is!), we explicitly need to state the index to use.
 2. `scan` for retrieving data by not indexed values. In the worst case scan has to check each database entry for the query to fit. Although scan is an expensive (real money you pay to AWS and time - expensive) operation and multiple indices can be created in order to perform a query or a get operations instead, it might be reasonable to use scan. This can be the case if the operation is not runtime critical and you want to avoid creating more indices, since AWS will bill you for creating indices some $ a month as well.
-    ```
+    ```javascript
     const params = {
         TableName: 'digital_logistics_customer',
         ExpressionAttributeValues: {
@@ -58,7 +58,7 @@ We perform three different operations on the DynamoDB:
     })
     ```
     This is a simple update operation. We use update operations to delete the auth code again as well, since you cannot set empty strings once a field had a value. The params object looks like this:
-    ```
+    ```javascript
     const params = {
         TableName: 'digital_logistics_customer',
         Key: {
