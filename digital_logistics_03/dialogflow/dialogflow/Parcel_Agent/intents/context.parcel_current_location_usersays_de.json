@@ -1,0 +1,38 @@
+[
+  {
+    "id": "ffee727e-aabd-4f2e-96c9-8ae7aaaf2809",
+    "data": [
+      {
+        "text": "Wo ist es denn?",
+        "userDefined": false
+      }
+    ],
+    "isTemplate": false,
+    "count": 1,
+    "updated": 1512656193
+  },
+  {
+    "id": "a1202279-b946-467b-830d-fac08d51e5ef",
+    "data": [
+      {
+        "text": "Was macht mein Paket?",
+        "userDefined": false
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 1512656193
+  },
+  {
+    "id": "e5f8d94f-cbf6-4688-8e68-9ddfea29272f",
+    "data": [
+      {
+        "text": "Wo ist mein Paket?",
+        "userDefined": false
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 1512656193
+  }
+]

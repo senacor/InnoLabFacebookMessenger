@@ -1,0 +1,65 @@
+{
+  "id": "862b2253-3788-478d-abe5-b00205586c85",
+  "name": "parcel_location",
+  "auto": true,
+  "contexts": [],
+  "responses": [
+    {
+      "resetContexts": false,
+      "action": "parcel_location",
+      "affectedContexts": [
+        {
+          "name": "Parcel",
+          "parameters": {},
+          "lifespan": 5
+        },
+        {
+          "name": "Fullfilled",
+          "parameters": {},
+          "lifespan": 1
+        }
+      ],
+      "parameters": [
+        {
+          "id": "0d2a74bd-08d8-46b5-ae63-1ad01f5fb540",
+          "required": false,
+          "dataType": "@sys.time",
+          "name": "time",
+          "value": "$time",
+          "isList": false
+        },
+        {
+          "id": "d3f933f1-b5c0-4142-b5a3-220400879c17",
+          "required": true,
+          "dataType": "@parcel_id",
+          "name": "parcel_id",
+          "value": "$parcel_id",
+          "prompts": [
+            {
+              "lang": "de",
+              "value": "Bitte geben Sie die acht-stellige Paketnummer ein:"
+            }
+          ],
+          "isList": false
+        }
+      ],
+      "messages": [
+        {
+          "type": 0,
+          "lang": "de",
+          "speech": "Ihr Paket mit der Nummer $parcel_id befindet sich gerade in Auslieferung."
+        }
+      ],
+      "defaultResponsePlatforms": {
+        "facebook": false
+      },
+      "speech": []
+    }
+  ],
+  "priority": 500000,
+  "webhookUsed": false,
+  "webhookForSlotFilling": false,
+  "lastUpdate": 1512650572,
+  "fallbackIntent": false,
+  "events": []
+}

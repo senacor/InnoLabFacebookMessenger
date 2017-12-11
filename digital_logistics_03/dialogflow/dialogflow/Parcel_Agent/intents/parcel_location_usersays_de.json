@@ -1,0 +1,53 @@
+[
+  {
+    "id": "2b707d48-acb9-4107-b138-68edfdc75c05",
+    "data": [
+      {
+        "text": "Wo ist mein Paket mit der Nummer ",
+        "userDefined": false
+      },
+      {
+        "text": "12345678",
+        "alias": "parcel_id",
+        "meta": "@parcel_id",
+        "userDefined": true
+      }
+    ],
+    "isTemplate": false,
+    "count": 0
+  },
+  {
+    "id": "632fd8c0-1063-4b92-b85c-077891e3c190",
+    "data": [
+      {
+        "text": "Kannst du mir bitte sagen, wo sich mein Paket ",
+        "userDefined": false
+      },
+      {
+        "text": "gerade",
+        "alias": "time",
+        "meta": "@sys.time",
+        "userDefined": false
+      },
+      {
+        "text": " befindet?",
+        "userDefined": false
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 1512650572
+  },
+  {
+    "id": "3dbf3f8a-3b45-4ded-b977-ceb1ef0732e6",
+    "data": [
+      {
+        "text": "Wo ist mein Paket?",
+        "userDefined": false
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 1512650572
+  }
+]

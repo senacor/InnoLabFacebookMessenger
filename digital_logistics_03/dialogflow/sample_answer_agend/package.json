@@ -1,0 +1,19 @@
+{
+  "name": "sample_answer_agend",
+  "version": "1.0.0",
+  "description": "Sample Lambda as a callback for dialog flow.",
+  "main": "index.js",
+  "devDependencies": {},
+  "scripts": {
+    "update": "claudia update",
+    "deploy": "claudia create --region eu-central-1 --api-module index",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "claudia": "^2.14.3",
+    "claudia-api-builder": "^2.5.1",
+    "request": "^2.83.0"
+  }
+}

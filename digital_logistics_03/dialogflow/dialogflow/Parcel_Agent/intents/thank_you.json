@@ -1,0 +1,28 @@
+{
+  "id": "5f495f72-2461-4575-a943-ffee6702ef6b",
+  "name": "thank_you",
+  "auto": true,
+  "contexts": [],
+  "responses": [
+    {
+      "resetContexts": false,
+      "affectedContexts": [],
+      "parameters": [],
+      "messages": [
+        {
+          "type": 0,
+          "lang": "de",
+          "speech": "gerne"
+        }
+      ],
+      "defaultResponsePlatforms": {},
+      "speech": []
+    }
+  ],
+  "priority": 500000,
+  "webhookUsed": false,
+  "webhookForSlotFilling": false,
+  "lastUpdate": 1512995060,
+  "fallbackIntent": false,
+  "events": []
+}

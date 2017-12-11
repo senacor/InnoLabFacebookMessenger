@@ -1,0 +1,50 @@
+[
+  {
+    "id": "9b9b66e0-5465-4cb6-bcee-8d5d59bf4615",
+    "data": [
+      {
+        "text": "Wann ist es denn endlich da?",
+        "userDefined": false
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 1512651486
+  },
+  {
+    "id": "164a4b48-de2d-489b-b514-100e10b69162",
+    "data": [
+      {
+        "text": "Wann ist es denn da?",
+        "userDefined": false
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 1512651486
+  },
+  {
+    "id": "bd1a0e24-6569-461b-a936-bc762385f276",
+    "data": [
+      {
+        "text": "Wann ist mein Pakt bei mir?",
+        "userDefined": false
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 1512651486
+  },
+  {
+    "id": "8e2027e8-ef39-4164-be14-7b960a11d633",
+    "data": [
+      {
+        "text": "Wann kommt mein Paket an?",
+        "userDefined": false
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 1512651486
+  }
+]

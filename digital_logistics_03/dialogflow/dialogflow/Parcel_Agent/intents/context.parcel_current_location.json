@@ -1,0 +1,50 @@
+{
+  "id": "b427a3c7-b9d1-4fec-867a-69c4fdcad0a4",
+  "name": "context.parcel_current_location",
+  "auto": true,
+  "contexts": [
+    "Parcel"
+  ],
+  "responses": [
+    {
+      "resetContexts": false,
+      "action": "parcel_location",
+      "affectedContexts": [
+        {
+          "name": "Parcel",
+          "parameters": {},
+          "lifespan": 5
+        },
+        {
+          "name": "Fullfilled",
+          "parameters": {},
+          "lifespan": 1
+        }
+      ],
+      "parameters": [
+        {
+          "id": "ab7a3d68-ad6f-459b-87dc-8a40686e7c36",
+          "required": false,
+          "name": "parcel_id",
+          "value": "#Parcel.parcel_id",
+          "isList": false
+        }
+      ],
+      "messages": [
+        {
+          "type": 0,
+          "lang": "de",
+          "speech": "Dein Paket mit der ID #Parcel.parcel_id findest sich seit gestern in der Postfiliale zur Abholung."
+        }
+      ],
+      "defaultResponsePlatforms": {},
+      "speech": []
+    }
+  ],
+  "priority": 500000,
+  "webhookUsed": false,
+  "webhookForSlotFilling": false,
+  "lastUpdate": 1512656193,
+  "fallbackIntent": false,
+  "events": []
+}

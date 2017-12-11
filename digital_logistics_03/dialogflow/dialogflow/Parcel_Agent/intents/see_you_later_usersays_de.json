@@ -1,0 +1,92 @@
+[
+  {
+    "id": "87a7d247-2274-4cf4-9847-20f603399b34",
+    "data": [
+      {
+        "text": "gn8",
+        "userDefined": false
+      }
+    ],
+    "isTemplate": false,
+    "count": 1,
+    "updated": 1512995490
+  },
+  {
+    "id": "fb120d0e-98b2-40da-8641-99137ad33df4",
+    "data": [
+      {
+        "text": "cu",
+        "userDefined": false
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 1512995490
+  },
+  {
+    "id": "b6f9726f-f936-438f-b528-9fa39630d727",
+    "data": [
+      {
+        "text": "bb",
+        "userDefined": false
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 1512995490
+  },
+  {
+    "id": "e7555dc1-2b92-4366-aa56-260c7f7e2e95",
+    "data": [
+      {
+        "text": "byby",
+        "userDefined": false
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 1512995490
+  },
+  {
+    "id": "7175f32e-d068-4175-8649-4966caad12d0",
+    "data": [
+      {
+        "text": "Gute ",
+        "userDefined": false
+      },
+      {
+        "text": "Nacht",
+        "alias": "time-period",
+        "meta": "@sys.time-period",
+        "userDefined": false
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 1512995490
+  },
+  {
+    "id": "d80416cc-c30c-4771-ad6b-b9bbc759832c",
+    "data": [
+      {
+        "text": "Auf wiedersehen",
+        "userDefined": false
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 1512995490
+  },
+  {
+    "id": "75c0d587-fd45-4942-b571-5f0707bac0ea",
+    "data": [
+      {
+        "text": "Tschüss",
+        "userDefined": false
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 1512995490
+  }
+]

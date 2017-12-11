@@ -1,0 +1,154 @@
+[
+  {
+    "id": "b925abf7-dc43-4c31-a156-161bd820554d",
+    "data": [
+      {
+        "text": "Ich brauche Informationen zu dem Paket 12345678.",
+        "userDefined": false
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 1512655783
+  },
+  {
+    "id": "a7279090-71e4-415c-9a1b-550de639a3fd",
+    "data": [
+      {
+        "text": "Ich brauche Informationen ",
+        "userDefined": false
+      },
+      {
+        "text": "zu einem",
+        "alias": "time",
+        "meta": "@sys.time",
+        "userDefined": false
+      },
+      {
+        "text": " Paket",
+        "userDefined": false
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 1512655783
+  },
+  {
+    "id": "07729262-5346-4554-9a4c-39329d1d2148",
+    "data": [
+      {
+        "text": "Kannst du mir was zu dem Paket ",
+        "userDefined": false
+      },
+      {
+        "text": "12345678",
+        "alias": "parcel_id",
+        "meta": "@parcel_id",
+        "userDefined": false
+      },
+      {
+        "text": " sagen.",
+        "userDefined": false
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 1512655783
+  },
+  {
+    "id": "3937ede0-4edd-4edd-9761-b3fdc9181b6a",
+    "data": [
+      {
+        "text": "Kannst du mir was ",
+        "userDefined": false
+      },
+      {
+        "text": "zu einem",
+        "alias": "time",
+        "meta": "@sys.time",
+        "userDefined": false
+      },
+      {
+        "text": " Paket sagen",
+        "userDefined": false
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 1512655783
+  },
+  {
+    "id": "c97ec63a-7866-47d7-9195-a59d26e800ca",
+    "data": [
+      {
+        "text": "Ich habe eine Frage bezüglich des Paketes ",
+        "userDefined": false
+      },
+      {
+        "text": "12345678",
+        "alias": "parcel_id",
+        "meta": "@parcel_id",
+        "userDefined": false
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 1512655783
+  },
+  {
+    "id": "7af83b90-add3-42c9-8519-7cf8f704cebc",
+    "data": [
+      {
+        "text": "Ich habe eine Frage bezüglich eines Paketes",
+        "userDefined": false
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 1512655783
+  },
+  {
+    "id": "2724f933-8943-4fc2-874c-1f7d215d939b",
+    "data": [
+      {
+        "text": "Ich habe eine frage ",
+        "userDefined": false
+      },
+      {
+        "text": "zu einem",
+        "alias": "time",
+        "meta": "@sys.time",
+        "userDefined": false
+      },
+      {
+        "text": " Paket.",
+        "userDefined": false
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 1512655783
+  },
+  {
+    "id": "e068d2d6-69bc-4694-aa9e-9470dd20d96a",
+    "data": [
+      {
+        "text": "Ich habe eine Frage ",
+        "userDefined": false
+      },
+      {
+        "text": "zu einem",
+        "alias": "time",
+        "meta": "@sys.time",
+        "userDefined": false
+      },
+      {
+        "text": " Paket von mir",
+        "userDefined": false
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 1512655783
+  }
+]

@@ -1,0 +1,54 @@
+{
+  "id": "b0711c1c-ea7d-4969-b787-cda16cd68dd7",
+  "name": "context.Thankyou",
+  "auto": true,
+  "contexts": [
+    "Parcel",
+    "Fullfilled"
+  ],
+  "responses": [
+    {
+      "resetContexts": false,
+      "affectedContexts": [
+        {
+          "name": "contextThankyou-followup",
+          "parameters": {},
+          "lifespan": 1
+        },
+        {
+          "name": "Parcel",
+          "parameters": {},
+          "lifespan": 0
+        }
+      ],
+      "parameters": [],
+      "messages": [
+        {
+          "type": 0,
+          "lang": "de",
+          "speech": [
+            "Gerne!",
+            "Nicht dafür!",
+            "Es was mir eine Freude!"
+          ]
+        },
+        {
+          "type": 0,
+          "lang": "de",
+          "speech": [
+            "Kann ich sonst noch etwas für dich tun?",
+            "Wie kann ich dir schon noch helfen?"
+          ]
+        }
+      ],
+      "defaultResponsePlatforms": {},
+      "speech": []
+    }
+  ],
+  "priority": 500000,
+  "webhookUsed": false,
+  "webhookForSlotFilling": false,
+  "lastUpdate": 1512984666,
+  "fallbackIntent": false,
+  "events": []
+}

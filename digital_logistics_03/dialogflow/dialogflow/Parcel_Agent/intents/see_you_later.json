@@ -1,0 +1,36 @@
+{
+  "id": "6d5e0e30-18cc-4e38-b1a0-07a26a34648e",
+  "name": "see_you_later",
+  "auto": true,
+  "contexts": [],
+  "responses": [
+    {
+      "resetContexts": false,
+      "affectedContexts": [],
+      "parameters": [
+        {
+          "id": "41facc3a-05c9-45e2-a0c0-9b49d81ed293",
+          "dataType": "@sys.time-period",
+          "name": "time-period",
+          "value": "$time-period",
+          "isList": false
+        }
+      ],
+      "messages": [
+        {
+          "type": 0,
+          "lang": "de",
+          "speech": "Auf wiedersehen!"
+        }
+      ],
+      "defaultResponsePlatforms": {},
+      "speech": []
+    }
+  ],
+  "priority": 500000,
+  "webhookUsed": false,
+  "webhookForSlotFilling": false,
+  "lastUpdate": 1512995490,
+  "fallbackIntent": false,
+  "events": []
+}

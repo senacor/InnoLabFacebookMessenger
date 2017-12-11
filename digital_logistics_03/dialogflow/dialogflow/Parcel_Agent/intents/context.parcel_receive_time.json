@@ -1,0 +1,49 @@
+{
+  "id": "176673a9-7d10-40f5-ba2c-09d328ddf396",
+  "name": "context.parcel_receive_time",
+  "auto": true,
+  "contexts": [
+    "Parcel"
+  ],
+  "responses": [
+    {
+      "resetContexts": false,
+      "affectedContexts": [
+        {
+          "name": "Parcel",
+          "parameters": {},
+          "lifespan": 5
+        },
+        {
+          "name": "Fullfilled",
+          "parameters": {},
+          "lifespan": 1
+        }
+      ],
+      "parameters": [
+        {
+          "id": "d08b3593-6870-4c96-8944-51abe5070d5c",
+          "required": false,
+          "name": "parcel_id",
+          "value": "#Parcel.parcel_id",
+          "isList": false
+        }
+      ],
+      "messages": [
+        {
+          "type": 0,
+          "lang": "de",
+          "speech": "Ihr Paket  mit der Nummer #Parcel.parcel_id kommt morgen Mittag bei ihnen an."
+        }
+      ],
+      "defaultResponsePlatforms": {},
+      "speech": []
+    }
+  ],
+  "priority": 500000,
+  "webhookUsed": false,
+  "webhookForSlotFilling": false,
+  "lastUpdate": 1512651486,
+  "fallbackIntent": false,
+  "events": []
+}

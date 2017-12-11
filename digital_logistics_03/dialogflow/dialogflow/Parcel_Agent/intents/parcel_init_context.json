@@ -1,0 +1,61 @@
+{
+  "id": "aab8cd58-db63-4b84-af43-f934b1309f61",
+  "name": "parcel_init_context",
+  "auto": true,
+  "contexts": [],
+  "responses": [
+    {
+      "resetContexts": false,
+      "affectedContexts": [
+        {
+          "name": "Parcel",
+          "parameters": {},
+          "lifespan": 5
+        }
+      ],
+      "parameters": [
+        {
+          "id": "de1a38bd-248e-4a09-9c79-161e514ec31c",
+          "required": false,
+          "dataType": "@sys.time",
+          "name": "time",
+          "value": "$time",
+          "isList": false
+        },
+        {
+          "id": "3c207aaf-9294-4ae3-8cae-3855711e60cd",
+          "required": true,
+          "dataType": "@parcel_id",
+          "name": "parcel_id",
+          "value": "$parcel_id",
+          "prompts": [
+            {
+              "lang": "de",
+              "value": "Gerne! Welches Paket meinst du denn? Kannst du mir die acht-stellige Paketnummer sagen?"
+            },
+            {
+              "lang": "de",
+              "value": "Gerne wie ist denn die Paketnummer?"
+            }
+          ],
+          "isList": false
+        }
+      ],
+      "messages": [
+        {
+          "type": 0,
+          "lang": "de",
+          "speech": "Ok was willst du wissen?"
+        }
+      ],
+      "defaultResponsePlatforms": {},
+      "speech": []
+    }
+  ],
+  "priority": 500000,
+  "webhookUsed": false,
+  "webhookForSlotFilling": false,
+  "lastUpdate": 1512655783,
+  "fallbackIntent": false,
+  "events": []
+}

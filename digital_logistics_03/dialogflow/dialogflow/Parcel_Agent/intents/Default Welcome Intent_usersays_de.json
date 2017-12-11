@@ -1,0 +1,46 @@
+[
+  {
+    "id": "1458c8e1-97ce-4fbb-bfea-869aa9259a82",
+    "data": [
+      {
+        "text": "Tach",
+        "userDefined": false
+      }
+    ],
+    "isTemplate": false,
+    "count": 0
+  },
+  {
+    "id": "177989a6-211f-43f3-900f-9e827778b6c9",
+    "data": [
+      {
+        "text": "gute Tag",
+        "userDefined": false
+      }
+    ],
+    "isTemplate": false,
+    "count": 0
+  },
+  {
+    "id": "ce6e2a22-b2e4-4a8d-8fe8-4dee739724b1",
+    "data": [
+      {
+        "text": "Hi",
+        "userDefined": false
+      }
+    ],
+    "isTemplate": false,
+    "count": 0
+  },
+  {
+    "id": "8c672198-47dc-453a-951c-8b7f9ace1914",
+    "data": [
+      {
+        "text": "Hallo",
+        "userDefined": false
+      }
+    ],
+    "isTemplate": false,
+    "count": 0
+  }
+]

@@ -1,0 +1,33 @@
+{
+  "id": "42249b29-b1e2-4b5f-a883-b9384dadd89b",
+  "parentId": "b0711c1c-ea7d-4969-b787-cda16cd68dd7",
+  "rootParentId": "b0711c1c-ea7d-4969-b787-cda16cd68dd7",
+  "name": "context.Thankyou - yes",
+  "auto": true,
+  "contexts": [
+    "contextThankyou-followup"
+  ],
+  "responses": [
+    {
+      "resetContexts": false,
+      "action": "contextThankyou.contextThankyou-yes",
+      "affectedContexts": [],
+      "parameters": [],
+      "messages": [
+        {
+          "type": 0,
+          "lang": "de",
+          "speech": "Super, was möchtest du denn Wissen? Wenn du eine Frage zu einem anderen Paket hast kannst du nochmal nach dem Paket fragen."
+        }
+      ],
+      "defaultResponsePlatforms": {},
+      "speech": []
+    }
+  ],
+  "priority": 500000,
+  "webhookUsed": false,
+  "webhookForSlotFilling": false,
+  "lastUpdate": 1508189124111,
+  "fallbackIntent": false,
+  "events": []
+}
