@@ -1,0 +1,19 @@
+{
+  "name": "find_respond",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "create": "claudia create --region eu-central-1 --name digital_logistics_03-wit_ai-find_respond --handler index.handler --policies policies",
+    "update": "claudia update"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.167.0",
+    "claudia": "^2.14.3",
+    "dynamodb-doc": "^1.0.0",
+    "object-path": "^0.11.4"
+  },
+  "author": "",
+  "license": "ISC"
+}
