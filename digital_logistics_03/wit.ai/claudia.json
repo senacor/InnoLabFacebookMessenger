@@ -1,0 +1,11 @@
+{
+  "lambda": {
+    "role": "digital_logistics_03_wit_ai-executor",
+    "name": "digital_logistics_03_wit_ai",
+    "region": "eu-central-1"
+  },
+  "api": {
+    "id": "dii1lmupjj",
+    "module": "index"
+  }
+}
