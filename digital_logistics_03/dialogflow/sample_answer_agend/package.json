@@ -16,6 +16,7 @@
     "claudia": "^2.14.3",
     "claudia-api-builder": "^2.5.1",
     "eslint": "^4.13.1",
+    "object-path": "^0.11.4",
     "request": "^2.83.0"
   }
 }
