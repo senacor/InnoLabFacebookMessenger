@@ -1,5 +1,7 @@
 # Dialogflow
 
+Dialogflow by Google is more feature rich than wit.ai. It provides a conversational state and therefore allows dialog communication between the user and the Dialogflow agent. Dialogflow exchanges messages to some messenger directly. In addition to Facebook messenger it supports Slack, Alexa and many others. Since Dialogflow handles the conversation itself, it either recognizes an 'intent' or it does not (and provides a default respsone). Within an 'intent' there can exist 'entities'. Those are business values that must be provided by the user. The 'entities' can be stored in a 'context' to be available for the next 'intent'.
+
 ## Concepts
 
 ### Agent

@@ -1,5 +1,7 @@
 # AWS Lex
 
+AWS Lex is very similar to Dialogflow. It also communicates with some messenger directly. It has support for Facebook, Kik, Slack, and Twilio. Lex as well tries to identifiy an 'intent' in the user's message. If it fails, it provides a default message. The business values within an 'intent' are called 'slot types' in Lex. However, Lex does not provide some sort of state out-of-the-box within a conversation. Meaning, 'slot-types' are lost after an 'intent' is completed. Furthermore, Lex currently supports English language only.
+
 ## Concepts
 
 Lex provides three elements on global level. These are the bots, intents and slot types. A bot has several intents and slot types. The intents define an action the user want to archive. They may contain some slots. Each slot is of a specific slot type. An intent or slot type once defined for some bot is available for every other bot. 
