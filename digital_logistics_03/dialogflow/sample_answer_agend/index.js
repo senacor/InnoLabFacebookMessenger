@@ -1,5 +1,4 @@
 const objectPath = require('object-path')
-const parcel_location = require('./intent_parcel_location')
 const ApiBuilder = require('claudia-api-builder')
 
 const api = new ApiBuilder({mergeVars: true})
@@ -12,16 +11,18 @@ const dialogflowEventHandler = req => {
     console.log(req.headers)
     console.log(JSON.stringify(req, null, 2))
     console.log(JSON.stringify(req.body, null, 2))
-    console.log(`Invoked for intent: ${intent}`)
+
 
     let response
-    switch (intent) {
-        case 'parcel_location': 
-            response = parcel_location(req, api)
-            break
-        default:
-            response = new api.ApiResponse({}, {'Content-Type': 'application/json'}, 200)
-            break
+    try {
+        console.log(`Invoked for intent: ${intent}`)
+        let intentHandler = require('./intent_handler/'+intent)
+        response = intentHandler(req, api)
+        console.log(`Intent ${intent} invoked successfully`)
+    }catch (err){
+        console.log("exception whil calling intent handler!")
+        console.log(err)
+        console = new api.ApiResponse({}, {'Content-Type': 'application/json'}, 200)
     }
     console.log(JSON.stringify(response, null, 2))
     return response
