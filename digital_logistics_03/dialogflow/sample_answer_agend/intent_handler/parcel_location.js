@@ -39,13 +39,23 @@ module.exports = (req, api) => {
                     },
                     delivery: {
                         description:
-                                    'Auslieferung am 01.12.2017 erfolgreich',
+                            'Auslieferung am 01.12.2017 erfolgreich',
                         Status:
-                                    'done',
+                            'done',
                         type:
-                                    'delivery',
+                            'delivery',
                         icon_prefix:
-                                    'https://s3.eu-central-1.amazonaws.com/digital-logistic-web/04_parcel_delivery_done.png'
+                            'https://s3.eu-central-1.amazonaws.com/digital-logistic-web/04_parcel_delivery_done.png'
+                    },
+                    current: {
+                        description:
+                            'Auslieferung am 01.12.2017 erfolgreich',
+                        Status:
+                            'done',
+                        type:
+                            'delivery',
+                        icon_prefix:
+                            'https://s3.eu-central-1.amazonaws.com/digital-logistic-web/04_parcel_delivery_done.png'
                     }
                 },
                 name: 'fill_slots'
