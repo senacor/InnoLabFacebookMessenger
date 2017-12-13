@@ -14,7 +14,7 @@
 
 ## Pricing
 
-Dialogflow is available in two editions: standard and enterprise. While the standard edition is free of any charge, the enterprise edition is charged on a per request basis. In return, it has a higher throughput (10 instead of 3 queries per second) and comes with an SLA. However, the enterprise edition is based on the new Dialogflow V2 API which is currently in beta phase.
+Dialogflow is available in two editions: standard and enterprise. While the standard edition is free of any charge, the enterprise edition is charged on a per request basis. In return, it has a higher throughput (10 instead of 3 queries per second) and comes with an SLA. It is possible to increase the quota even more on request. However, the enterprise edition is based on the new Dialogflow V2 API which is currently in beta phase.
 
 | Features | Standard Edition | Enterprise Edition |
 | --- | --- | --- |
