@@ -23,7 +23,7 @@ For the intent `single_status` we provided Wit with the following example senten
 
 Wit then also recognizes similar sentences it got not trained with like "Wann wird das Paket denn bei mir sein?" as `single_status` intent.
 
-In addition to intents, Wit can also extract so called entities.
+In addition to intents, Wit can also extract so called entities. To train Wit to recognize entities, you can mark a word or expression and choose the entity you want it to be.
 
 ![Extracted entity](entity.png)
 
