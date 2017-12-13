@@ -15,6 +15,7 @@
   "dependencies": {
     "claudia": "^2.14.3",
     "claudia-api-builder": "^2.5.1",
+    "eslint": "^4.13.1",
     "request": "^2.83.0"
   }
 }
