@@ -1,7 +1,6 @@
 # Wit.ai
 
-End of summer 2017 Facebook [deprecated Wit's bot engine and story GUI](https://wit.ai/blog/2017/07/27/sunsetting-stories). The bot engine and story GUI could be used to make conversations with a user. The conversation's aim could have been to retrieve several contact information of a user. As soon as the user provided phone number, email and address the bot engine would have called your service with this information. Facebook deprecated this features in favor of GUI elements for their messenger. According to their blog post GUI elements and forms provide a more pleasant user experience: "constant visual feedback, ability to modify previous choices, etc." Facebook from now on focuses on good and scalable NLP.
-Other tools like AWS Lex and Google Dialogflow [still have similar features](../).
+Wit.ai is a Natural Language Processing Software as a Service by Facebook. It parses and understands sentences written by humans and provides your application possible user intents such as "Is hungry" or "Wants to meet" as well as so called entities, such as a datetime, a number or location, which can be found in the user input. Find more about NLP tools in general in [our overview](https://github.com/senacor/InnoLabFacebookMessenger/tree/master/docs/facebook_chatbot_with_ai).
 
 ## How to use Wit.ai
 
@@ -12,34 +11,35 @@ Alternatively Wit can be used via a [REST service](https://wit.ai/docs/http/2017
 
 ## What you get from Wit.ai
 
-Our [application](../../digital_logistics_03/wit.ai) receives a NLP object from Facebook, containing the parsed message.
+Possible intents are defined by us, Wit rates each intent by calculating a so called confidence-value. Our application discards all but the intent with the highest confidence!
+
+To train Wit recognizing your intents you need to provide example sentences for each intent.
+
+![Train WIT](train.png)
+
+Wit then recognizes the intent `single_status` for this and similar sentences.
+
+Our [application](../../digital_logistics_03/wit.ai) receives a NLP object from Facebook, containing the parsed message. For the following sentence the information Wit provides us could be:
+
+> Wo ist mein Paket mit der Nummer 12345678?
 
 ```javascript
 {
-    "datetime": [
+    "number": [
         {
-            "confidence": 0.96767,
-            "values": [
-                {
-                    "value": "2017-12-15T00:00:00.000+01:00",
-                    "grain": "day",
-                    "type": "value"
-                },
-                /* ... */
-            ],
-            "value": "2017-12-15T00:00:00.000+01:00",
-            "grain": "day",
+            "confidence": 1,
+            "value": 12345678,
             "type": "value",
-            "_entity": "datetime",
-            "_body": "Freitag",
-            "_start": 8,
-            "_end": 15
+            "_entity": "number",
+            "_body": "12345678",
+            "_start": 23,
+            "_end": 31
         }
     ],
     "intent": [
         {
             "confidence": 0.96539204235584,
-            "value": "different_time",
+            "value": "single_status",
             "_entity": "intent"
         },
         {
@@ -51,12 +51,6 @@ Our [application](../../digital_logistics_03/wit.ai) receives a NLP object from 
     ]
 }
 ```
-
-Intents are defined by us, we discard all but the intent with the highest confidence and call a specific event handler for each possible user intent.
-
-To train Wit recognizing your intents you need to provide example sentences for each intent.
-
-![Train WIT](train.png)
 
 ## How we integrated Wit.ai
 
@@ -86,3 +80,8 @@ different_place: (story, finishStory) => {
     }
 }
 ```
+
+## Differences to other NLP tools
+
+End of summer 2017 Facebook deprecated Wit's bot engine and story GUI. The bot engine and story GUI could be used to make conversations with a user. The conversation's aim could have been to retrieve several contact information of a user. As soon as the user provided phone number, email and address the bot engine would have called your service with this information. Facebook deprecated this features in favor of GUI elements for their messenger. According to their [blog post](https://wit.ai/blog/2017/07/27/sunsetting-stories) GUI elements and forms provide a more pleasant user experience: "constant visual feedback, ability to modify previous choices, etc." Facebook from now on focuses on good and scalable NLP.
+Other tools like AWS Lex and Google Dialogflow [still have similar features](../).
