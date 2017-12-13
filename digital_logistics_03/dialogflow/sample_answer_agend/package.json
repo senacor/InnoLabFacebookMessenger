@@ -5,6 +5,7 @@
   "main": "index.js",
   "devDependencies": {},
   "scripts": {
+    "destroy": "claudia destroy",
     "update": "claudia update",
     "deploy": "claudia create --region eu-central-1 --api-module index",
     "test": "echo \"Error: no test specified\" && exit 1"
