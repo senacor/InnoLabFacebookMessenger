@@ -9,7 +9,7 @@ We enabled Wit as message proxy at the Facebook developer console for our Facebo
 
 Alternatively Wit can be used via a [REST service](https://wit.ai/docs/http/20170307).
 
-## What you get from Wit.ai
+## How to configure and train Wit.ai
 
 Possible intents are defined by us, Wit rates each intent by calculating a so called confidence-value. Our application discards all but the intent with the highest confidence!
 
@@ -17,7 +17,21 @@ To train Wit recognizing your intents you need to provide example sentences for 
 
 ![Train WIT](train.png)
 
-Wit then recognizes the intent `single_status` for this and similar sentences.
+For the intent `single_status` we provided Wit with the following example sentences.
+
+![Example sentences](sentences.png)
+
+Wit then also recognizes similar sentences it got not trained with like "Wann wird das Paket denn bei mir sein?" as `single_status` intent.
+
+In addition to intents, Wit can also extract so called entities.
+
+![Extracted entity](entity.png)
+
+In contrast to intents, entities can not be defined by you. Wit provides several default entity types which can be extracted from sentences.
+
+![Entity types](entities.png)
+
+## How we integrated Wit.ai
 
 Our [application](../../digital_logistics_03/wit.ai) receives a NLP object from Wit, containing the parsed message. For the following sentence the information Wit provides us could be:
 
@@ -51,8 +65,6 @@ _Wo ist mein Paket mit der Nummer 12345678?_
     ]
 }
 ```
-
-## How we integrated Wit.ai
 
 A simple event handler we implemented asks the user for all details, such as place and parcel id, it needs and performs the task (e.g. re-routing a parcel) the user intended to do, as soon as all data is provided.
 
