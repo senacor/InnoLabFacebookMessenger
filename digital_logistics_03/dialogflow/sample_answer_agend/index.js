@@ -20,7 +20,7 @@ const dialogflowEventHandler = req => {
         response = intentHandler(req, api)
         console.log(`Intent handler for ${intent} invoked successfully`)
     }catch (err){
-        console.log("exception while calling intent handler!")
+        console.log("Exception while calling intent handler for ${intent}!")
         console.log(err)
         response = new api.ApiResponse({}, {'Content-Type': 'application/json'}, 200)
     }
