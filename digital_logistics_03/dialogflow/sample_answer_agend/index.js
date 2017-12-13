@@ -6,7 +6,7 @@ const api = new ApiBuilder({mergeVars: true})
 const dialogflowEventHandler = req => {
     console.log('running dialogflowEventHandler')
 
-    const intent = objectPath.get(req, 'body.result.metadata.intentName');
+    const intent = objectPath.get(req, 'body.result.metadata.intentName')
 
     console.log(req.headers)
     console.log(JSON.stringify(req, null, 2))
@@ -14,8 +14,8 @@ const dialogflowEventHandler = req => {
 
     let response
     try {
-        console.log(`Invoked intent handler for ${intent}`)
-        const intentHandler = require(`./intent_handler/${intent}`)
+        console.log(`Invoked intent handler for intent: ${intent}`)
+        let intentHandler = require(`./intent_handler/${intent}`)
         response = intentHandler(req, api)
         console.log(`Intent handler for ${intent} invoked successfully`)
     } catch (err){
