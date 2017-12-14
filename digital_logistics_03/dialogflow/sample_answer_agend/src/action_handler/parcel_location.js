@@ -1,7 +1,7 @@
 const eventLoopSuppression = require('./eventLoopSupression')
 
 module.exports = (req, api) => {
-    if (eventLoopSuppression(req) && req.body.result.parameters.parcel_id.parcel_id) {
+    if (eventLoopSuppression.checkShoudSuppress(req) && req.body.result.parameters.parcel_id.parcel_id) {
         return new api.ApiResponse({
             followupEvent: {
                 data: {
@@ -18,7 +18,7 @@ module.exports = (req, api) => {
                                 'https://s3.eu-central-1.amazonaws.com/digital-logistic-web/04_parcel_delivery_done.png'
                     }
                 },
-                name: 'fill_slots'
+                name: eventLoopSuppression.getFillSlotsEventName(req)
             }
         }, {'Content-Type': 'application/json'}, 200)
     } else {
