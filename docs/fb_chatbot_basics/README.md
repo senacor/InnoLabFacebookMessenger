@@ -1,14 +1,15 @@
-# Facebook chatbot basics
+# Facebook Chatbot Basics
 
 The following concepts are essential in order to understand how Facebook chatbots work. Claudia-bot-builder abstracts most of these processes for us, however we implemented it a basic chatbot by hand to understand and demonstrate these concepts.
 
 ## Content
 
-- [Request flow](#request-flow)
-- [Token verification](#token-verification)
-- [Message signature validation](#message-signature-validation)
+- [Request Flow](#request-flow)
+- [Token Verification](#token-verification)
+- [Message Signature Validation](#message-signature-validation)
+- [Returning a Message](#returning-a-message)
 
-## Request flow
+## Request Flow
 
 There are three separable processes:
 
@@ -18,7 +19,7 @@ There are three separable processes:
 
 ![Sequence diagram](./sequence_diagram.png)
 
-## Token verification
+## Token Verification
 
 In order to ensure only authorized user can use your webhook, Facebook asks you for a verify token, when registering a new webhook. You need to take care of the verification of this token by your own.
 When registering a new webhook, Facebook makes a GET call to your webhook, passing the verify token provided by the user.
@@ -48,7 +49,7 @@ Return the challenge Facebook provides as query parameter `hub.challenge`, if va
 
 ![Verify Token](./verify_token.png)
 
-## Message signature validation
+## Message Signature Validation
 
 To make sure each call is made by your application and not modified by anybody else, Facebook provides a hash of the message body, created with your app secret. Make sure to check the message's integrity!
 
@@ -66,3 +67,49 @@ const _checkMessageIntegrity = (signatureHeader, secret, rawBody) => {
     return tsscmp(calculatedSignature, givenSignature)
 }
 ```
+
+## Returning a Message
+
+To return a message from the chatbot a separate http call is required. As seen [in the sequence diagram above](#sequence-diagram), the message is not returned on the incoming message call.
+
+Sending a message is done via the Graph Api. To send a message to a user an access token is required. The access token is generated in the Facebook app for a specific Facebook page. Thus, the access token implicitly defines the sender.
+
+` POST https://graph.facebook.com/v2.6/me/messages?access_token=${fbAccessToken} `
+
+The header only sets the Content-Type to `application/json`.
+
+```javascript
+HEADERS
+{
+    'Content-Type': 'application/json'
+}
+```
+The body contains the recipient and the message. The recipient is defined by its `PSID` (page-scoped user id). It can be extracted from the request message. When a user sends a message, the request contains this `PSID`. It is, as its name states, valid in the scope of a specific page, only. Meaning, it is not possible to use this `PSID` to send a message to the user, but having a different sender for the response than the recipient of the incoming message.
+
+```javascript
+BODY
+{
+    "recipient": {
+        "id": '<PSID>'
+    },
+    "message": {
+        "text": 'hello, world!'
+    }
+}
+```
+
+Besides simple text messages, Facebook supports several more complex message types. All of those we use are:
+
+- List Template
+- Login Button
+- Logout Button
+
+The list template returns a list with two to four entries. Each must have a title, and optionally may have a subtitle, an image and an url. Additionally, below the list may be added a single button.
+
+![](parcel_status.png)
+
+We use the login and logout button for account linking. That means, we can connect a facebook account to some business account (external website). The login and logout buttons provide a mechanism to authenticate at the external website.
+More informatione see [here](../facebook_chatbot_with_login_and_push_notifications#account-linking)
+
+
+

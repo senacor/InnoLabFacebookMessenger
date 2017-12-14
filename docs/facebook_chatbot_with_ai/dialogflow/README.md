@@ -26,3 +26,10 @@ Dialogflow is available in two editions: standard and enterprise. While the stan
 |Service Level Agreement | None | Coming soon (with the v1 GA release) |
 | Support | Community support and via email | Eligible for Cloud Support packages with committed response times for supporting production applications |
 | Terms of Service | Dialogflow ToS | Google Cloud Platform ToS |
+
+## Problems During Development
+
+ - Alle arbeiten an einem Lambda
+ - Es kann aber immer nur eine Version deployed werden
+ - Mehrere Versionen deployen funkioniert nicht, da wir dann auch mehrere DialogFlow Agents bräuchten
+ - Ein Main Lambda und mehrere Intent-Lambdas würde das Problem lösen (was allerdings nur ein Problem aus der Entwicklung ist und nicht Produktionsrelevant. Im Gegenteil, zusätzliche Latency durch Lambda-Aufruf.)
