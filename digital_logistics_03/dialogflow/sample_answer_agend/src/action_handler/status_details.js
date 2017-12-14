@@ -1,7 +1,37 @@
-console.log('hier1')
+const objectPath = require('object-path')
 const aws = require('aws-sdk')
-console.log('hier2')
 aws.config.update({region: 'eu-central-1'})
-console.log('hier3')
+const db = require('../db')
 
-module.exports = () => console.log('HIIII')
+const eventName = 'fill_slots_display_status_details'
+
+module.exports = (req, api) => {
+    // SENDER ID: console.log(req.body.originalRequest.data.sender.id)
+
+    const parcelId = objectPath.get(req, 'result.parameters.parcel_id.parcel_id')
+    let calculateResult = () => {
+        return Promise.resolve({})
+    }
+
+    if (req.body.result.resolvedQuery !== eventName) {
+        console.log('hier1')
+        calculateResult = () => {
+            console.log('hier4')
+            return db.getParcels(parcelId)
+                .then(parcels => {
+                    console.log('hier5')
+                    console.log(parcels)
+                    const result = {
+                        followupEvent: {
+                            data: { }
+                        }
+                    }
+
+                    return result
+                })
+        }
+    }
+
+    return calculateResult()
+        .then(result => new api.ApiResponse(result, {'Content-Type': 'application/json'}, 200))
+}

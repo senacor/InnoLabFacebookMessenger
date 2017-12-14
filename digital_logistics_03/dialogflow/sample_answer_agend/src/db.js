@@ -1,14 +1,10 @@
 console.log('db1')
 const aws = require('aws-sdk')
-console.log('db11')
 const DOC = require('dynamodb-doc')
-console.log('db12')
 const objectPath = require('object-path')
-console.log('db2')
 
 aws.config.update({region: 'eu-central-1'})
 const docClient = new DOC.DynamoDB()
-console.log('db3')
 
 const db = {
     getParcels: (ids = []) => new Promise((resolve, reject) => {
