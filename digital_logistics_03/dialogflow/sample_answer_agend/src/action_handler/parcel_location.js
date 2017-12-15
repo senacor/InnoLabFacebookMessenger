@@ -1,13 +1,15 @@
-const eventLoopSuppression = require('../eventLoopSupression')
 const objectPath = require('object-path')
 const db = require('../db')
+const calcParcelStatus = require('../helper_functions/calcParcelStatus')
+const getFillSlotsEventName = require('../helper_functions/getFillSlotsEventName')
+const checkShouldSuppress = require('../helper_functions/checkShouldSuppress')
 
 let calculateResult = () => {
     return Promise.resolve({})
 }
 
 module.exports = (req, api) => {
-    if (eventLoopSuppression.checkShoudSuppress(req)) {
+    if (checkShouldSuppress(req)) {
         const parcelId = objectPath.get(req, 'body.result.parameters.parcel_id.parcel_id')
 
         calculateResult = () =>  db.getParcels(parcelId)
@@ -15,39 +17,32 @@ module.exports = (req, api) => {
                 const parcel = parcels[parcelId]
 
                 if (!parcel) {
-                    // TODO do something and handle it in dialogflow
+                    return { 
+                        followupEvent: {
+                            data: {
+                                error_message: 'Es konnte kein Paket gefunden werden', 
+                            }, 
+                            name: 'fill_slots_display_status_details' 
+                        }
+                    }
                 }
+
+                const {status, description} = calcParcelStatus(parcel)
 
                 return {
                     followupEvent: {
                         data: {
-                            status: 'in Auslieferung',
-                            parcel_id: String(req.body.result.parameters.parcel_id.parcel_id),
+                            status,
+                            parcel_id: parcelId,
                             current: {
-                                description:  'Das Paket wir im Paketzentrum Neuwied bearbeitet',
-                                map_location: 'Neuwied+Rostocker+Str+14'
+                                description,
+                                map_location: objectPath.get(parcel, 'current_location')
                             }
                         },
-                        name: eventLoopSuppression.getFillSlotsEventName(req)
+                        name: getFillSlotsEventName(req)
                     }
                 }
             })
-
-
-
-        // return resolve(new api.ApiResponse({
-        //     followupEvent: {
-        //         data: {
-        //             status: 'in Auslieferung',
-        //             parcel_id: String(req.body.result.parameters.parcel_id.parcel_id),
-        //             current: {
-        //                 description:  'Das Paket wir im Paketzentrum Neuwied bearbeitet',
-        //                 map_location: 'Neuwied+Rostocker+Str+14'
-        //             }
-        //         },
-        //         name: eventLoopSuppression.getFillSlotsEventName(req)
-        //     }
-        // }, {'Content-Type': 'application/json'}, 200))
     }
 
     return calculateResult()

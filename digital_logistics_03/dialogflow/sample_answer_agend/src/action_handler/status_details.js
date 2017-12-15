@@ -1,7 +1,9 @@
 const objectPath = require('object-path')
 const aws = require('aws-sdk')
 const db = require('../db')
-const eventLoopSuppression = require('../eventLoopSupression')
+const calcParcelStatus = require('../helper_functions/calcParcelStatus')
+const getFillSlotsEventName = require('../helper_functions/getFillSlotsEventName')
+const checkShouldSuppress = require('../helper_functions/checkShouldSuppress')
 
 aws.config.update({region: 'eu-central-1'})
 
@@ -25,17 +27,22 @@ module.exports = (req, api) => {
         return Promise.resolve({})
     }
 
-    if (eventLoopSuppression.checkShoudSuppress(req)) {
+    if (checkShouldSuppress(req)) {
         calculateResult = () => {
             return db.getParcels(parcelId)
                 .then(parcels => {
                     const parcel = parcels[parcelId]
 
                     if (!parcel) {
-                        // TODO do something and handle it in dialogflow
+                        return { 
+                            followupEvent: {
+                                data: { 
+                                    error_message: 'Es konnte kein Paket gefunden werden', 
+                                }, 
+                                name: 'fill_slots_display_status_details' 
+                            }
+                        }
                     }
-
-                    let parcelIsDone = true
 
                     const data = {
                         parcel_id: parcelId,
@@ -49,22 +56,16 @@ module.exports = (req, api) => {
                             type: status.type,
                             icon_prefix: getIcon(status.type, status.Status)
                         }
-
-                        if (status.Status === 'in_progress') {
-                            data.status = 'In Auslieferung'
-                        }
-
-                        if (status.Status !== 'done'){
-                            parcelIsDone = false
-                        }
                     })
 
-                    data.status = parcelIsDone
+                    const {status} = calcParcelStatus(parcel)
+
+                    data.status = status
 
                     const result = {
                         followupEvent: {
                             data,
-                            name: eventLoopSuppression.getFillSlotsEventName(req)
+                            name: getFillSlotsEventName(req)
                         }
                     }
 

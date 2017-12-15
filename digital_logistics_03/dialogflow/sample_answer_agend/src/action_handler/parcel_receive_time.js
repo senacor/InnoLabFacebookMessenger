@@ -1,13 +1,14 @@
-const eventLoopSuppression = require('../eventLoopSupression')
 const objectPath = require('object-path')
 const db = require('../db')
+const getFillSlotsEventName = require('../helper_functions/getFillSlotsEventName')
+const checkShouldSuppress = require('../helper_functions/checkShouldSuppress')
 
 let calculateResult = () => {
     return Promise.resolve({})
 }
 
 module.exports = (req, api) => {
-    if (eventLoopSuppression.checkShoudSuppress(req)) {
+    if (checkShouldSuppress(req)) {
         const parcelId = objectPath.get(req, 'body.result.parameters.parcel_id.parcel_id')
 
         calculateResult = () =>  db.getParcels(parcelId)
@@ -15,7 +16,14 @@ module.exports = (req, api) => {
                 const parcel = parcels[parcelId]
 
                 if (!parcel) {
-                    // TODO do something and handle it in dialogflow
+                    return { 
+                        followupEvent: {
+                            data: { 
+                                error_message: 'Es konnte kein Paket gefunden werden', 
+                            }, 
+                            name: 'fill_slots_display_status_details' 
+                        }
+                    }
                 }
 
                 return {
@@ -25,7 +33,7 @@ module.exports = (req, api) => {
                             map_location: objectPath.get(parcel, 'current_location', ''),
                             parcel_id: parcelId
                         },
-                        name: eventLoopSuppression.getFillSlotsEventName(req)
+                        name: getFillSlotsEventName(req)
                     }
                 }
             })
