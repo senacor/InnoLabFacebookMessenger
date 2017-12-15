@@ -14,10 +14,7 @@ const icons = {
 module.exports = (req, api) => {
     // SENDER ID: console.log(req.body.originalRequest.data.sender.id)
 
-    console.log(JSON.stringify(req.body.result))
-    const parcelId = objectPath.get(req, 'body.result.parameters.parcel_id')
-
-    console.log('parcelId: ' + parcelId) // TODO this results to [object object] ?
+    const parcelId = objectPath.get(req, 'body.result.parameters.parcel_id.parcel_id')
 
     let calculateResult = () => {
         return Promise.resolve({})
@@ -27,7 +24,6 @@ module.exports = (req, api) => {
         calculateResult = () => {
             return db.getParcels(parcelId)
                 .then(parcels => {
-                    console.log(JSON.stringify(parcels))
                     let parcelIsDone = true
 
                     const data = {
@@ -35,7 +31,8 @@ module.exports = (req, api) => {
                         status: 'Unbekannt'
                     }
 
-                    parcels.forEach(status => {
+                    // is parcels[0] save?
+                    parcels[0].Status.forEach(status => {
                         data[status.type] = {
                             description: status.description,
                             Status: status.Status,
