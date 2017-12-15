@@ -15,6 +15,10 @@ const db = {
             return reject(new Error('Cannot retrieve more then 100 parcels a time'))
         }
 
+        if (ids.length <= 0){
+            return reject(new Error('No ids passed'))
+        }
+
         const param = {
             RequestItems: {
                 'digital_logistics_parcel': {
@@ -23,12 +27,17 @@ const db = {
             }
         }
 
+        console.log(JSON.stringify(param))
+
         docClient.batchGetItem(param, (err, data) => {
             if (err) {
+                console.log(err)
                 return reject(err)
             }
 
-            return resolve(objectPath.get(data, 'Responses.digital_logistics_parcel', []))
+            console.log(JSON.stringify(data))
+
+            return resolve(objectPath.get(data, 'Responses.digital_logistics_parcel'))
         })
     })
 }

@@ -7,16 +7,22 @@ const api = new ApiBuilder({mergeVars: true})
 const dialogflowEventHandler = req => {
     const action = objectPath.get(req, 'body.result.action', '')
 
-    console.log(req.headers)
-    console.log(JSON.stringify(req, null, 2))
-    console.log(JSON.stringify(req.body, null, 2))
+    console.log(JSON.stringify(req.headers))
+    console.log(JSON.stringify(req.body))
+    console.log(JSON.stringify(req))
 
-    console.log(`Invoked action handler for action: ${action}`)
+    console.log(`Trying to invoke action handler for action: ${action}`)
 
     if (handler[action]) {
-        return  handler[action](req, api)
+        console.log('Found action handler')
+        return handler[action](req, api)
+            .then(result => {
+                console.log(JSON.stringify(result))
+                return result
+            })
     }
 
+    console.log('Returning default result')
     return new api.ApiResponse({}, {'Content-Type': 'application/json'}, 200)
 }
 
