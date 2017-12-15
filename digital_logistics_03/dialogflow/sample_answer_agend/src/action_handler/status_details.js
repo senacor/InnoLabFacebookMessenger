@@ -7,6 +7,9 @@ const checkShouldSuppress = require('../helper_functions/checkShouldSuppress')
 
 aws.config.update({region: 'eu-central-1'})
 
+/**
+ * Returns s3 bucket link to correct icon, based on current shipping status
+ */
 const getIcon = (type, status) => {
     const icons = {
         received: `https://s3.eu-central-1.amazonaws.com/digital-logistic-web/01_pacel_received_${status}.png`,
@@ -18,14 +21,23 @@ const getIcon = (type, status) => {
     return icons[type]
 }
 
+/**
+ * Default response if event isn't handled
+ */
+let calculateResult = () => {
+    return Promise.resolve({})
+}
+
+/**
+ * This endpoint reads a the requested parcel's detail information from db and returns it as JSON, readable for dialogflow
+ * @param {Object} req http request object
+ * @param {Object} api claudia api object
+ * @returns Promise.<{Object}> resolves with a claudia api response, which returns a JSON to the client
+ */
 module.exports = (req, api) => {
     // SENDER ID: console.log(req.body.originalRequest.data.sender.id)
 
     const parcelId = objectPath.get(req, 'body.result.parameters.parcel_id.parcel_id')
-
-    let calculateResult = () => {
-        return Promise.resolve({})
-    }
 
     if (checkShouldSuppress(req)) {
         calculateResult = () => {

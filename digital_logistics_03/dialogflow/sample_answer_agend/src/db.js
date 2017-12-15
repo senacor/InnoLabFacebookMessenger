@@ -7,6 +7,11 @@ aws.config.update({region: 'eu-central-1'})
 const docClient = new DOC.DynamoDB()
 
 const db = {
+    /**
+     * Takes multiple parcel ids and returns each db entries
+     * @param ids defaults to empty array, expects list of parcel ids as strings or number
+     * @returns Promise.<{{String: {Object}}}> resolves with object, where key is parcel id and value is db's parcel item entry
+     */
     getParcels: (ids = []) => new Promise((resolve, reject) => {
         // Make sure it's an array, not only a string
         ids = [].concat(ids)

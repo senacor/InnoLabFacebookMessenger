@@ -4,10 +4,19 @@ const calcParcelStatus = require('../helper_functions/calcParcelStatus')
 const getFillSlotsEventName = require('../helper_functions/getFillSlotsEventName')
 const checkShouldSuppress = require('../helper_functions/checkShouldSuppress')
 
+/**
+ * Default response if event isn't handled
+ */
 let calculateResult = () => {
     return Promise.resolve({})
 }
 
+/**
+ * This endpoint reads a the requested parcel's shipping information from db and returns the current location and it's description, readable for dialogflow
+ * @param {Object} req http request object
+ * @param {Object} api claudia api object
+ * @returns Promise.<{Object}> resolves with a claudia api response, which returns a JSON to the client
+ */
 module.exports = (req, api) => {
     if (checkShouldSuppress(req)) {
         const parcelId = objectPath.get(req, 'body.result.parameters.parcel_id.parcel_id')

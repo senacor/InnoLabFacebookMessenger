@@ -1,5 +1,10 @@
 const objectPath = require('object-path')
 
+/**
+ * Calculates the current parcel's status based on all status descriptions
+ * @param {{Status: [Object]}} parcel 
+ * @returns {{done: Boolean, status: String, description: String}}
+ */
 module.exports = parcel => {
     const result = {
         status: 'Unknown',
