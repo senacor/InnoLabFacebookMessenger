@@ -27,17 +27,20 @@ const db = {
             }
         }
 
-        console.log(JSON.stringify(param))
-
         docClient.batchGetItem(param, (err, data) => {
             if (err) {
                 console.log(err)
                 return reject(err)
             }
 
-            console.log(JSON.stringify(data))
+            const parcels = {}
+            objectPath.get(data, 'Responses.digital_logistics_parcel', []).forEach(parcel => {
+                if (parcel.parcel_customer_id) {
+                    parcels[parcel.parcel_id] = parcel
+                }
+            })
 
-            return resolve(objectPath.get(data, 'Responses.digital_logistics_parcel'))
+            return resolve(parcels)
         })
     })
 }

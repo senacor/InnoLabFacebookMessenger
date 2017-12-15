@@ -1,14 +1,19 @@
 const objectPath = require('object-path')
 const aws = require('aws-sdk')
-aws.config.update({region: 'eu-central-1'})
 const db = require('../db')
+const eventLoopSuppression = require('../eventLoopSupression')
 
-const eventName = 'fill_slots_display_status_details'
-const icons = {
-    received: 'https://s3.eu-central-1.amazonaws.com/digital-logistic-web/01_pacel_received_done.png',
-    transport: 'https://s3.eu-central-1.amazonaws.com/digital-logistic-web/02_parcel_transport_done.png',
-    factory: 'https://s3.eu-central-1.amazonaws.com/digital-logistic-web/03_parcel_factroy_done.png',
-    delivery: 'https://s3.eu-central-1.amazonaws.com/digital-logistic-web/04_parcel_delivery_done.png'
+aws.config.update({region: 'eu-central-1'})
+
+const getIcon = (type, status) => {
+    const icons = {
+        received: `https://s3.eu-central-1.amazonaws.com/digital-logistic-web/01_pacel_received_${status}.png`,
+        transport: `https://s3.eu-central-1.amazonaws.com/digital-logistic-web/02_parcel_transport_${status}.png`,
+        factory: `https://s3.eu-central-1.amazonaws.com/digital-logistic-web/03_parcel_factroy_${status}.png`,
+        delivery: `https://s3.eu-central-1.amazonaws.com/digital-logistic-web/04_parcel_delivery_${status}.png`
+    }
+    
+    return icons[type]
 }
 
 module.exports = (req, api) => {
@@ -20,10 +25,16 @@ module.exports = (req, api) => {
         return Promise.resolve({})
     }
 
-    if (req.body.result.resolvedQuery !== eventName) {
+    if (eventLoopSuppression.checkShoudSuppress(req)) {
         calculateResult = () => {
             return db.getParcels(parcelId)
                 .then(parcels => {
+                    const parcel = parcels[parcelId]
+
+                    if (!parcel) {
+                        // TODO do something and handle it in dialogflow
+                    }
+
                     let parcelIsDone = true
 
                     const data = {
@@ -31,13 +42,12 @@ module.exports = (req, api) => {
                         status: 'Unbekannt'
                     }
 
-                    // is parcels[0] save?
-                    parcels[0].Status.forEach(status => {
+                    parcel.Status.forEach(status => {
                         data[status.type] = {
                             description: status.description,
                             Status: status.Status,
                             type: status.type,
-                            icon_prefix: icons[status.type]
+                            icon_prefix: getIcon(status.type, status.Status)
                         }
 
                         if (status.Status === 'in_progress') {
@@ -54,7 +64,7 @@ module.exports = (req, api) => {
                     const result = {
                         followupEvent: {
                             data,
-                            name: eventName
+                            name: eventLoopSuppression.getFillSlotsEventName(req)
                         }
                     }
 
