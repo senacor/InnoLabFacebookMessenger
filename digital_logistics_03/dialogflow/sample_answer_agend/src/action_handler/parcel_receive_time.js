@@ -21,7 +21,7 @@ module.exports = (req, api) => {
                             data: { 
                                 error_message: 'Es konnte kein Paket gefunden werden', 
                             }, 
-                            name: 'fill_slots_display_status_details' 
+                            name: 'fill_slots_parcel_receive_time' 
                         }
                     }
                 }
