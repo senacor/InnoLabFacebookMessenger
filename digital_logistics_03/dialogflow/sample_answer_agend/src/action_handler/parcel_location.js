@@ -8,14 +8,8 @@ module.exports = (req, api) => {
                     status: 'in Auslieferung',
                     parcel_id: String(req.body.result.parameters.parcel_id.parcel_id),
                     current: {
-                        description:
-                                'Auslieferung am 01.12.2017 erfolgreich',
-                        Status:
-                                'done',
-                        type:
-                                'delivery',
-                        icon_prefix:
-                                'https://s3.eu-central-1.amazonaws.com/digital-logistic-web/04_parcel_delivery_done.png'
+                        description:  'Das Paket wir im Paketzentrum Neuwied bearbeitet',
+                        map_location: 'Neuwied+Rostocker+Str+14'
                     }
                 },
                 name: eventLoopSuppression.getFillSlotsEventName(req)
