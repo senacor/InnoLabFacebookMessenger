@@ -7,7 +7,7 @@
   "scripts": {
     "destroy": "claudia destroy",
     "update": "claudia update",
-    "deploy": "claudia create --region eu-central-1 --api-module index",
+    "deploy": "claudia create --region eu-central-1 --api-module --policies policies index",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",

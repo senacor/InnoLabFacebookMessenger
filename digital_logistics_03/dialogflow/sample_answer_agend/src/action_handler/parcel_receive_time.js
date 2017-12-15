@@ -1,8 +1,8 @@
-const eventLoopSuppression = require('./eventLoopSupression')
+const eventLoopSuppression = require('../eventLoopSupression')
 
-module.exports = (req, api) => {
+module.exports = (req, api) => new Promise((resolve, reject) => {
     if (eventLoopSuppression.checkShoudSuppress(req) && req.body.result.parameters.parcel_id.parcel_id) {
-        return new api.ApiResponse({
+        return resolve(new api.ApiResponse({
             followupEvent: {
                 data: {
                     delivery_date: '15.12.2017',
@@ -13,10 +13,10 @@ module.exports = (req, api) => {
                 name: eventLoopSuppression.getFillSlotsEventName(req)
             }
         },
-        {'Content-Type': 'application/json'}, 200)
+        {'Content-Type': 'application/json'}, 200))
 
     } else {
-        return new api.ApiResponse({},
-            {'Content-Type': 'application/json'}, 200)
+        return resolve(new api.ApiResponse({},
+            {'Content-Type': 'application/json'}, 200))
     }
-}
+})
