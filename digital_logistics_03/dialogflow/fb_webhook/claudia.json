@@ -1,0 +1,11 @@
+{
+  "lambda": {
+    "role": "digital_logistics_03_fb_webhook-executor",
+    "name": "digital_logistics_03_fb_webhook",
+    "region": "eu-central-1"
+  },
+  "api": {
+    "id": "c0v8vdy2r6",
+    "module": "index"
+  }
+}

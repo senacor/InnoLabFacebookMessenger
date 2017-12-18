@@ -47,7 +47,48 @@ const db = {
 
             return resolve(parcels)
         })
-    })
+    }),
+    /**
+     * Returns a single user, queried by fb psid
+     * @param {String} psid 
+     * @returns Promise.<{Object}> user from db
+     */
+    getUserByPsid: psid => new Promise((resolve, reject) => {
+        const scan = {
+            TableName: 'digital_logistics_customer',
+            ExpressionAttributeValues: {
+                ':fb_psid': psid
+            },
+            FilterExpression: 'fb_psid = :fb_psid'
+        }
+
+        docClient.scan(scan, (err, data) => {
+            if (err) {
+                return reject(err)
+            }
+
+            const users = data.Items
+
+            if (users.length !== 1) {
+                return reject(new Error(`Unexpected amount (${users.length}) of users for psid code ${psid}`))
+            }
+
+            return resolve(users[0])
+        })
+    }),
+    /**
+     * Returns status for being logged in or logged out, evaluated by psid
+     * @param {string} psid page scoped facebook user id
+     * @returns Promise.<{String}> resolves with a string, representing the status
+     */
+    getLoginStatus: psid => db.getUserByPsid(psid)
+        .then(() => db.STATI.LOGGED_IN)
+        .catch(() => db.STATI.LOGGED_OUT),
+    
+    STATI: {
+        LOGGED_IN: 'loggedIn',
+        LOGGED_OUT: 'loggedOut'
+    }
 }
 
 module.exports = db

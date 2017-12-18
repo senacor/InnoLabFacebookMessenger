@@ -16,6 +16,7 @@
     "aws-sdk": "^2.163.0",
     "claudia": "^2.14.3",
     "claudia-api-builder": "^2.5.1",
+    "claudia-bot-builder": "^2.15.0",
     "dynamodb-doc": "^1.0.0",
     "eslint": "^4.13.1",
     "object-path": "^0.11.4",
