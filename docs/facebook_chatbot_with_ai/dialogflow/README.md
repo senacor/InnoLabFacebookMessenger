@@ -170,11 +170,46 @@ Here you can activate the call of the defined webhook. To do that there are two 
 * **Use webhook**: This option just call the webhook after the intent is completed and all necessary required parameter are collected.
 * **Use webhook for slot-filling**: With this option the webhook will be called everytime the intent is called.
 
-### Webhook
+### Fulfillment:
+
+In Dialogflow you are able to configure a so called " [fulfillment](https://dialogflow.com/docs/fulfillment) " option. With this option you can add a webservice call for an external
+REST-Service (in our case AWS Lambda via API-Gateway) or an in google hosted lambda function.
+
+You can just add one webservice destination, which means that this has to be a invocation handle which routes the call by its action name to the actual implementation.
+
+To enable the fulfillment call in the intents you have to activate them in the intents although.
 
 ### Integration
 
 ![dialogflow_integrations](dialogflow_integrations.png)
+
+In the integration section you can add the integration with which you dialogflow agent should work.
+Each integration has its onw settings. If you activate them, the specific response typ will be available.
+
+For Facebook you have to perform the following actions to integrat the agent:
+1. Create and teach a conversational bot for Facebook Messenger.
+2. After you design and test your Dialogflow agent, you can launch your Messenger bot
+
+   1. Get your Facebook Page Access Token and insert it in the field below.
+   2. Create your own Verify Token (can be any string).
+   3. Click 'START' below.
+   4. Use the Callback URL and Verify Token to create an event in the Facebook Messenger Webhook Setup.
+
+## Specific development usecases
+
+### Validate input
+
+tbd
+
+### Render Content result with dialogflow after fulfillment
+
+tbd
+
+### Link facebook
+
+tbd
+
+
 
 ## Pricing
 
