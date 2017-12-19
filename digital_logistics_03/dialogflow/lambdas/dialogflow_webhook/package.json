@@ -7,7 +7,7 @@
   "scripts": {
     "destroy": "claudia destroy",
     "update": "claudia update",
-    "deploy": "claudia create --region eu-central-1 --api-module --policies policies --name digital_logistics_03_dialogflow_webhook index",
+    "create": "claudia create --region eu-central-1 --api-module index --policies policies --name digital_logistics_03_dialogflow_webhook",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",

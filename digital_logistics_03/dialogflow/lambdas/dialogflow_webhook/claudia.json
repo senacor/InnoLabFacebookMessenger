@@ -1,0 +1,11 @@
+{
+  "lambda": {
+    "role": "digital_logistics_03_dialogflow_webhook-executor",
+    "name": "digital_logistics_03_dialogflow_webhook",
+    "region": "eu-central-1"
+  },
+  "api": {
+    "id": "89lgsybs8l",
+    "module": "index"
+  }
+}

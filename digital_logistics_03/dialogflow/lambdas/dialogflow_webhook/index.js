@@ -27,6 +27,6 @@ const dialogflowEventHandler = req => {
     return new api.ApiResponse({}, {'Content-Type': 'application/json'}, 200)
 }
 
-api.post('/dialogflow_example', dialogflowEventHandler)
+api.post('/dialogflow_webhook', dialogflowEventHandler)
 
 module.exports = api
