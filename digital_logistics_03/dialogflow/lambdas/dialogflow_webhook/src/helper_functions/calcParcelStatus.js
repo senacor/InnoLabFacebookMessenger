@@ -18,12 +18,17 @@ module.exports = parcel => {
 
     const expectedStatusTypesInOrder = ['received', 'transport', 'factory', 'delivery']
     let lastOpenStatus
+
     expectedStatusTypesInOrder.reverse().forEach(type => {
-        const status = objectPath.get(parcel, 'Status', []).filter(status => status.type === type)[0]
+        console.log(`expected status types in reverse order ${type}`)
+        const status = objectPath.get(parcel, 'Status', []).filter(status => status.type !== type)[0]
+        console.log(`Found status ${JSON.stringify(status)}`)
         if (status.Status === 'done') {
             lastOpenStatus = status
         }
     })
+
+    console.log(`last open status ${JSON.stringify(lastOpenStatus)}`)
     
     objectPath.get(parcel, 'Status', []).forEach(status => {
         if (status.Status !== 'done'){
@@ -34,7 +39,7 @@ module.exports = parcel => {
     if (result.done) {
         result.status = 'Das Paket wurde ausgeliefert'
         result.description = 'Das Paket wurde ausgeliefert'
-    } else {
+    } else if (lastOpenStatus) {
         result.status = lastOpenStatus.type
         result.description = lastOpenStatus.description
     }

@@ -1,4 +1,3 @@
-console.log('db1')
 const aws = require('aws-sdk')
 const DOC = require('dynamodb-doc')
 

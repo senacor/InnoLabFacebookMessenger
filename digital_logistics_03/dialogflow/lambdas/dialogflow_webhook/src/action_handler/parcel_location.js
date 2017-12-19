@@ -22,13 +22,13 @@ module.exports = (req, api) => {
     if (checkShouldSuppress(req)) {
         const parcelId = objectPath.get(req, 'body.result.parameters.parcel_id.parcel_id')
 
-        calculateResult = () =>  db.getParcels(``)
+        calculateResult = () =>  db.getParcels(parcelId)
             .then(parcels => {
                 const parcel = parcels[parcelId]
 
                 if (!parcel) {
                     return {
-                        contextOut: [{name:'parcel', "lifespan":0}],
+                        contextOut: [{name: 'parcel', lifespan: 0}],
                         followupEvent: {
                             data: {
                                 error_message: 'Es konnte kein Paket gefunden werden', 
@@ -36,6 +36,7 @@ module.exports = (req, api) => {
                             name: getFillSlotsEventName(req)
                         },
                         speech: `Es konnte kein Paket mit der ID ${parcelId} gefunden werden`,
+                        displayText: 'this is a display text'
                     }
                 }
 
