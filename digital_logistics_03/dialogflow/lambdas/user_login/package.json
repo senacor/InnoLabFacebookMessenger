@@ -1,0 +1,21 @@
+{
+  "name": "user_login",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "update": "claudia update",
+    "create": "claudia create --region eu-central-1 --api-module index --name digital_logistics_03_user_login --policies policies",
+    "destroy": "claudia destroy",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "aws-sdk": "^2.163.0",
+    "claudia": "^2.14.3",
+    "claudia-api-builder": "^2.5.1",
+    "dynamodb-doc": "^1.0.0",
+    "object-path": "^0.11.4"
+  }
+}

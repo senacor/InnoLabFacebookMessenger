@@ -1,0 +1,110 @@
+<!DOCTYPE HTML>
+
+<html>
+    <head>
+        <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>Digital Logistics</title>
+    </head>
+
+    <body>
+        <script>
+            // Functions we need
+            var getUrlParameter = function getUrlParameter(sParam) {
+                var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+                    sURLVariables = sPageURL.split('&'),
+                    sParameterName,
+                    i;
+
+                for (i = 0; i < sURLVariables.length; i++) {
+                    sParameterName = sURLVariables[i].split('=');
+
+                    if (sParameterName[0] === sParam) {
+                        return sParameterName[1] === undefined ? true : sParameterName[1];
+                    }
+                }
+            };
+
+            var showSection = function(section) {
+                $('section').hide();
+                $('#' + section).show();
+            }
+
+            // Our events and their handling
+            $(document).ready(function() {
+                var accountLinkingToken = getUrlParameter('account_linking_token');
+                var redirectUri = getUrlParameter('redirect_uri');
+
+                $('#login').click(function() {
+                    var password = $('#password').val();
+                    var email = $('#email').val();
+
+                    $.ajax({
+                        url: 'https://ttyaki54pa.execute-api.eu-central-1.amazonaws.com/latest/',
+                        type: 'POST',
+                        data: JSON.stringify({email: email, password: password}),
+                        success: function(result) {
+                            try {
+                                result = JSON.parse(result);
+                            } catch(_) {
+                                console.log('Unexpected result format');
+                                return;
+                            }
+
+                            if(result.error) {
+                                showError(result.error);
+                                return;
+                            }
+
+                            $('#connect').click(function (e) {
+                                e.preventDefault();
+                                window.location.replace(redirectUri + '=' + accountLinkingToken + '&authorization_code=' + result.authorizationCode);
+                            });
+
+                            showSection('connectToFB');
+                        },
+                        error: function(xhr, status, error) {
+                            showError(error);
+                        }
+                    });
+                });
+
+                var showError = function(err) {
+                    console.log('error occurred');
+                    console.log(err);
+                    window.location.replace(redirectUri + '=' + accountLinkingToken);
+                }
+
+                $('#dontConnect').click(function(e) {
+                    e.preventDefault()
+                    window.location.replace(redirectUri + '=' + accountLinkingToken);
+                })
+
+                showSection('digitalLogisticLogin');
+            });
+        </script>
+
+        <style>
+            section {
+                display: none;
+            }
+        </style>
+
+        <section id="digitalLogisticLogin">
+            <form>
+                <label for="email">E-Mail</label>
+                <input type="text" name="email" id="email">
+                <label for="password">Password</label>
+                <input type="password" name="password" id="password">
+                <label for="register">Login</label>
+                <input type="button" name="login" id="login" value="Login">
+            </form>
+        </section>
+
+        <section id="connectToFB">
+            <button id="connect">Connect to Facebook</button>
+            <button id="dontConnect">Do not connect to Facebook</button>
+        </section>
+    </body>
+</html>

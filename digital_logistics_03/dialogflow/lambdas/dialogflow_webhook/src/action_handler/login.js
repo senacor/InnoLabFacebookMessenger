@@ -31,7 +31,7 @@ module.exports = (req, api) => new Promise((resolve) => {
                         data: {
                             facebook: 
                                 new fbTemplate.Button('Verknüpfe deinen Digital Logistics Account')
-                                    .addLoginButton('https://s3.eu-central-1.amazonaws.com/digital-logistic-web/login.html')
+                                    .addLoginButton('https://s3.eu-central-1.amazonaws.com/digital-logistic-web/digital_logistics_03_login.html')
                                     .get()
                         
                         }
