@@ -6,32 +6,32 @@ const db = require('../db')
 const fbTemplate = botBuilder.fbTemplate
 
 /**
- * This endpoint provides a login button, if the user is not already logged in
+ * This endpoint provides a logout button, if the user is currently logged in
  * @param {Object} req http request object
  * @param {Object} api claudia api object
  * @returns Promise.<{Object}> resolves with a claudia api response, which returns a JSON to the client
  */
 module.exports = (req, api) => new Promise((resolve) => {
-    console.log('Enter login action handler')
+    console.log('Enter logout action handler')
     if (checkShouldSuppress(req)) {
         if (objectPath.get(req, 'body.originalRequest.source') === 'facebook') {
-            console.log('Login action via facebook messenger')
+            console.log('Logout action via facebook messenger')
             return resolve(db.getLoginStatus(objectPath.get(req, 'body.originalRequest.data.sender.id'))
                 .then(status => {
-                    if (status === db.STATI.LOGGED_IN) {
-                        console.log('Already logged in')
+                    if (status === db.STATI.LOGGED_OUT) {
+                        console.log('Currently not logged in')
                         return {
-                            speech: 'Du bist schon eingeloggt.',
-                            displayText: 'Du bist schon eingeloggt.'
+                            speech: 'Du bist zur Zeit nicht eingeloggt.',
+                            displayText: 'Du bist zur Zeit nicht eingeloggt.'
                         }
                     }
 
-                    console.log('Not yet logged in')
+                    console.log('Currently logged in')
                     return {
                         data: {
                             facebook: 
-                                new fbTemplate.Button('Verknüpfe deinen Digital Logistics Account')
-                                    .addLoginButton('https://s3.eu-central-1.amazonaws.com/digital-logistic-web/login.html')
+                                new fbTemplate.Button('Account Verknüpfung mit Digital Logistics aufheben.')
+                                    .addLogoutButton()
                                     .get()
                         
                         }
@@ -42,15 +42,15 @@ module.exports = (req, api) => new Promise((resolve) => {
                 )
             )
         } else {
-            console.log('Login action via non-facebook messenger')
+            console.log('Logout action via non-facebook messenger')
             return resolve(new api.ApiResponse({
-                speech: 'Ein Login ist nur über den Facebook Messenger möglich.',
-                displayText: 'Ein Login ist nur über den Facebook Messenger möglich.'
+                speech: 'Die Login-Funktionalität steht nur über den Facebook Messenger zur Verfügung.',
+                displayText: 'Die Login-Funktionalität steht nur über den Facebook Messenger zur Verfügung.'
             },
             {'Content-Type': 'application/json'}, 200))
         }
     }
 }).then(result => {
-    console.log('Leave login action handler')
+    console.log('Leave logout action handler')
     return result
 })

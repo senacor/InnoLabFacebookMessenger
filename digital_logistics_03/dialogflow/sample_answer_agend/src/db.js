@@ -54,6 +54,7 @@ const db = {
      * @returns Promise.<{Object}> user from db
      */
     getUserByPsid: psid => new Promise((resolve, reject) => {
+        console.log(`Evaluate login status for psid ${psid}`)
         const scan = {
             TableName: 'digital_logistics_customer',
             ExpressionAttributeValues: {
@@ -64,9 +65,11 @@ const db = {
 
         docClient.scan(scan, (err, data) => {
             if (err) {
+                console.log(err)
                 return reject(err)
             }
 
+            console.log(data)
             const users = data.Items
 
             if (users.length !== 1) {
