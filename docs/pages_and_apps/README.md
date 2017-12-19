@@ -1,4 +1,4 @@
-# Pages and Apps
+# Facebook Pages and Apps
 
 ## Pages
 
@@ -8,7 +8,7 @@ A page is the must have for a business to be present on Facebook. It allows post
 
 An app adds some extra functionality to Facebook. Not only, this is limited to enhancements of a page, but also an app can run standalone.
 
-What an app is actually used for is defined by its products. Facebook offers a wide range of products like "App Events", "Webhooks", "Messenger", "Instragram", "Games" and many more. 
+What an app is actually used for is defined by its products. Facebook offers a wide range of products like "App Events", "Webhooks", "Messenger", "Instagram", "Games" and many more. 
 
 Products once assigned to an app cannot be removed anymore. This is designed on purpose by Facebook. However, one can deactivate/configure them such that they are not in use anymore.
 
