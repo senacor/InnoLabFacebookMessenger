@@ -47,6 +47,12 @@ It might be necessary to unlink a company and a Facebook messenger account, for 
 5. `fb_webhook` lambda deletes user's `psid` from database and returns 200
 6. Facebook show logout success message
 
+## Pitfalls when Manually Linking or Unlinking
+
+Facebook shows a confirmation message to the user after successful linking and unlinking. However, this depends on the internal (Facebook's) linking state. Meaning, when someone manually links an account in the database and the user logs out, no success message is shown. The same applies the other ways round. When the account is unlinked by deleting the entry in the database, after the next successful login no message is shown. Therefore, one must care that the linking states do not divert in Facebook and the companies database.
+
+![](linking_successful_message.png)
+
 ## Pushing Notifications
 
 Whenever a parcel gets a status update, the customer gets an instant notification, i.e., the customer is sent a Facebook message. However, this requires account linking first. During account linking we store the `PSID` in our database.
