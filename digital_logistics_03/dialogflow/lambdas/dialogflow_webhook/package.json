@@ -1,5 +1,5 @@
 {
-  "name": "sample_answer_agend",
+  "name": "dialogflow_webhook",
   "version": "1.0.0",
   "description": "Sample Lambda as a callback for dialog flow.",
   "main": "index.js",
@@ -7,7 +7,7 @@
   "scripts": {
     "destroy": "claudia destroy",
     "update": "claudia update",
-    "deploy": "claudia create --region eu-central-1 --api-module --policies policies index",
+    "deploy": "claudia create --region eu-central-1 --api-module --policies policies --name digital_logistics_03_dialogflow_webhook index",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
