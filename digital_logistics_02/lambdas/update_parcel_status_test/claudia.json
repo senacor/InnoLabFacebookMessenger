@@ -1,7 +1,0 @@
-{
-  "lambda": {
-    "role": "update_parcel_status_test-executor",
-    "name": "update_parcel_status_test",
-    "region": "eu-central-1"
-  }
-}

@@ -6,6 +6,7 @@
   "scripts": {
     "update": "claudia update",
     "deploy": "claudia create --region eu-central-1 --api-module index --name digital_logistics_user_login --policies policies",
+    "destroy": "claudia destroy",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
