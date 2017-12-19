@@ -39,7 +39,7 @@ const facebookEventHandler = req => {
     const tasks = objectPath.get(req, 'body.entry', []).map(entry => {
         const messageTask = entry.messaging.map(messaging => {
             // 1) Standard message sent by the user
-            if (messaging.message) {
+            if (messaging.message  || messaging.postback) {
                 return new Promise(resolve => {
                 // Better catch both you never know. 
                 // May the devil with those who use other capitalization. 
