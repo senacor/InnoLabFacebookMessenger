@@ -15,13 +15,17 @@ module.exports = parcel => {
     if (!objectPath.has(parcel, 'Status') || objectPath.get(parcel, 'Status', []).length <= 0) {
         result.done = false
     }
+
+    const expectedStatusTypesInOrder = ['received', 'transport', 'factory', 'delivery']
+    let lastOpenStatus
+    expectedStatusTypesInOrder.reverse().forEach(type => {
+        const status = objectPath.get(parcel, 'Status', []).filter(status => status.type === type)[0]
+        if (status.Status === 'done') {
+            lastOpenStatus = status
+        }
+    })
     
     objectPath.get(parcel, 'Status', []).forEach(status => {
-        if (status.Status === 'in_progress' && result.status === 'Unknown') {
-            result.status = 'In Auslieferung'
-            result.description = status.description
-        }
-
         if (status.Status !== 'done'){
             result.done = false
         }
@@ -30,6 +34,9 @@ module.exports = parcel => {
     if (result.done) {
         result.status = 'Das Paket wurde ausgeliefert'
         result.description = 'Das Paket wurde ausgeliefert'
+    } else {
+        result.status = lastOpenStatus.type
+        result.description = lastOpenStatus.description
     }
 
     return result
