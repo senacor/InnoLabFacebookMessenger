@@ -2,6 +2,7 @@ const objectPath = require('object-path')
 const db = require('../db')
 const calcParcelStatus = require('../helper_functions/calcParcelStatus')
 const getFillSlotsEventName = require('../helper_functions/getFillSlotsEventName')
+const getErrorEventName = require('../helper_functions/getErrorEventName')
 const checkShouldSuppress = require('../helper_functions/checkShouldSuppress')
 
 /**
@@ -31,7 +32,7 @@ module.exports = (req, api) => {
                             data: {
                                 error_message: 'Es konnte kein Paket gefunden werden', 
                             }, 
-                            name: 'fill_slots_parcel_location' 
+                            name: getErrorEventName(req)
                         }
                     }
                 }
