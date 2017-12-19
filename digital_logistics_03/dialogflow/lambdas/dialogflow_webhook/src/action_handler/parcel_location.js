@@ -22,18 +22,20 @@ module.exports = (req, api) => {
     if (checkShouldSuppress(req)) {
         const parcelId = objectPath.get(req, 'body.result.parameters.parcel_id.parcel_id')
 
-        calculateResult = () =>  db.getParcels(parcelId)
+        calculateResult = () =>  db.getParcels(``)
             .then(parcels => {
                 const parcel = parcels[parcelId]
 
                 if (!parcel) {
-                    return { 
+                    return {
+                        contextOut: [{name:'parcel', "lifespan":0}],
                         followupEvent: {
                             data: {
                                 error_message: 'Es konnte kein Paket gefunden werden', 
                             }, 
-                            name: getErrorEventName(req)
-                        }
+                            name: getFillSlotsEventName(req)
+                        },
+                        speech: `Es konnte kein Paket mit der ID ${parcelId} gefunden werden`,
                     }
                 }
 
