@@ -28,7 +28,7 @@ For this reason, Dialogflow provides a lot of build-in features to design such e
 
 The development of a bot using Dialogflow is slightly different as the bot development by yourself or using tool like claudia bot builder.
 In this case the main webhook which will be used by Facebook will be the Dialogflow agent itself. The agent is running inside the Google Cloud and will be configured via a web console.
-The main communication will be done via Facebook Messenger and Dialogflow. Only if an "intent" is fulfilled and all necessary information has been collected the lambda containing the businesslogic will be called. In our case the lambdas and the database is inside the AWS Cloud.
+The main communication will be done via Facebook Messenger and Dialogflow. Only if an 'intent' is fulfilled and all necessary information has been collected the lambda containing the business logic will be called. In our case the lambdas and the database is inside the AWS Cloud.
 
 ![Dialogflow Archithekture](Dialogflow%20Archithekture.png)
 
@@ -36,21 +36,23 @@ The main communication will be done via Facebook Messenger and Dialogflow. Only 
 ### Agent
 
 The [Agent](https://dialogflow.com/docs/agents) in Dialogflow is the actual Facebook Messenger bot. The Agent can be understood as a NLU (Natural Language Understanding).
-For that it contains all building blocks to create a dialog flow like:
+Thus, it contains all building blocks to create a dialog flow:
 * Entities
 * Intents
-* Actions and parameter
-* Fulfillments (webhook)
+* Actions and Parameter
+* Fulfillments (Webhook)
 * etc.
 
-The Agent will be integrated into the Facebook Messenger. Here you see the Web Console where to define your Agent:
+The Agent will be integrated into the Facebook Messenger. Here you see the Web Console where to define your Agent.
+
 ![Dialogflow_Agent_Page](dialogflow_Agent_page.png)
 
 #### Language
 
 Dialogflow supports [multiple languages](https://dialogflow.com/docs/multi-language). For that reason you have do defined in the Agent which languages will be supported by your Agent.
 
-In your console, you have to swith between the language you had configured and you want to develop and test:
+In your console, you have to swith between the language you had configured and you want to develop and test.
+
 ![switch_language](switch_language.png)
 
 The user-sayings and prompts, defined in the intents, are influenced by this decision.
@@ -58,9 +60,9 @@ The user-sayings and prompts, defined in the intents, are influenced by this dec
 #### Share: User and Roles
 
 In the Agent you can define a list of users which are allowed to work on this agent.
-The user can have different roles regarding their need. These roles are available:
-*  **Admin**: Only the creator of the Agent can be Admin.
-*  **Developer**: Has the rights to change and develop the agent
+The users can have different roles regarding their need. These roles are available:
+*  **Admin**: Only the creator of the Agent can be Admin
+*  **Developer**: Has the rights to change and develop the Agent
 *  **Reviewer**: Can review and test the Agent
 
 ### Entities
@@ -78,7 +80,7 @@ In Dialogflow you can define entities for all needed structured information. Thr
 
 An [intent](https://dialogflow.com/docs/intents) represents a mapping between what a user says and what action should be taken by your software.
 
-Intent interfaces have the following sections:
+The Intent interface has the following sections:
 
 - User says
 - Action
@@ -86,9 +88,9 @@ Intent interfaces have the following sections:
 - Contexts
 - Events
 
-#### User says
+#### User Says
 
-The "User says" are the expressions which will be used to match an intent by a user's message. The can be defined as examples in natural language (Example mode ") or as Template (Template mode @).
+The 'User says' are the expressions which will be used to match an intent by a user's message. The can be defined as examples in natural language (Example mode ") or as Template (Template mode @).
 It is recommended use the example mode because it is more easy to train the machine learning.
 
 In the sentence of the user says you are able to add or mark the entities. They will be used as structured input for actions or responses.
@@ -170,7 +172,7 @@ Here you can activate the call of the defined webhook. To do that there are two 
 * **Use webhook**: This option just calls the webhook after the intent is completed and all necessary required parameter are collected.
 * **Use webhook for slot-filling**: With this option the webhook will be called everytime the intent is called.
 
-### Fulfillment:
+### Fulfillment
 
 In Dialogflow you are able to configure a so called "[fulfillment](https://dialogflow.com/docs/fulfillment)" option. With this option you can add a webservice call for an external REST-Service (in our case AWS Lambda via API-Gateway) or lambda functions, hosted at Google.
 
@@ -182,25 +184,44 @@ To enable the fulfillment call in the intents you have to activate them in the i
 
 ![dialogflow_integrations](dialogflow_integrations.png)
 
-In the integration section you can add the integration with which your dialogflow agent should work.
-Each integration has it's onw settings. If you activate them, the specific response type will be available.
+In the integration section dialogflow provides several messengers and platforms to integrate your agent into. Each integration comes with its own required settings.
 
-For Facebook you have to perform the following actions to integrat the agent:
+#### Facebook
+
+For Facebook, you have to perform the following actions to integrate the agent:
 1. Create and teach a conversational bot for Facebook Messenger.
 2. After you design and test your Dialogflow agent, you can launch your Messenger bot
 
-   1. Get your Facebook Page Access Token and insert it in the field below.
-   2. Create your own Verify Token (can be any string).
+   1. Get your Facebook `Page Access Token` and insert it in the field below.
+   2. Create your own `Verify Token` (this can be any string).
    3. Click 'START' below.
-   4. Use the Callback URL and Verify Token to create an event in the Facebook Messenger Webhook Setup.
+   4. Use the `Callback URL` and `Verify Token` to set up the webhook in your Facebebook App.
 
-## Specific development usecases
+![](facebook_integration.png)
 
-### Render Content result with dialogflow after fulfillment
+However, this is not the way we do it. Since we are receiving as well other payloads than messages, i.e., linking and unlinking events, we use some 'proxy-lambda' as webhook for Facebook which then redirects messages to Dialogflow, i.e., calls the provided webhook of Dialogflow.
+
+#### Alexa
+
+There is no real integration for Alexa. Dialogflow provides an export for Alexa which contains the intent schema including defined entities and the utterances, only. Thus, there is no slider to enable or disable the integration. This is due to the fact that Alexa, more specific an Alexa Skill Set, does not support speech to text. However, this would be required to directly integrate Dialogflow into Alexa.
+
+![](alexa_exporter.png)
+
+You need to implement your own lambda handling the intents from Alexa. Alexa only helps you to detect any utterance from the speech and then passes the corresponding intent (with possible slot values) to your lambda.
+
+After all, you cannot make use of any feature provided by Dialogflow. The export has no relation to it at all.
+
+## Specific Development Usecases
+
+### Validate Input
 
 tbd
 
-### Link facebook
+### Render Content Result with Dialogflow after Fulfillment
+
+tbd
+
+### Link Facebook
 
 tbd
 
