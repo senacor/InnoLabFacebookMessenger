@@ -16,12 +16,7 @@ const linkAccount = request => {
     }
     
     return db.getUserByAuthorizationCode(authCode)
-        .then(user => {
-            user.fb_psid = objectPath.get(request, 'sender.id')
-    
-            return user
-        })
-        .then(user => db.setPsidAndAuthCode(user).then(() => user))
+        .then(user => db.setPsid(user, objectPath.get(request, 'sender.id')).then(() => user))
         .then(user => db.removeFieldInDb(user, 'authorization_code'))
         .then(() => null) // Return nothing
 }

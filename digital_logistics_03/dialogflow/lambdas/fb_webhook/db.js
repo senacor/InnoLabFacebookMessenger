@@ -33,22 +33,24 @@ const db = {
             return resolve(users[0])
         })
     }),
+
     /**
-    * Sets psid and auth code in db to given values
-    * @param {Object} user 
-    * @returns Promise.<{Object}> resolves with an object of all new user's attributes
-    */
-    setPsidAndAuthCode: user => new Promise((resolve, reject) => {
+     * Sets psid and auth code in db to given values
+     * @param {Object} user 
+     * @param {String} user.email part of DynamoDB Primary Key
+     * @param {String} user.customer_id part of DynamoDB Primary Key
+     * @returns Promise.<{Object}> resolves with an object of all new user's attributes
+     */
+    setPsid: (user, psid) => new Promise((resolve, reject) => {
         const update = {
             TableName: 'digital_logistics_customer',
             Key: {
                 'email': user.email,
                 'customer_id': user.customer_id
             },
-            UpdateExpression: 'set authorization_code = :r, fb_psid = :f',
+            UpdateExpression: 'set fb_psid = :f',
             ExpressionAttributeValues: {
-                ':r': user.authorization_code,
-                ':f': user.fb_psid
+                ':f': psid
             },
             ReturnValues: 'ALL_NEW'
         }
@@ -61,6 +63,7 @@ const db = {
             return resolve(data)
         })
     }),
+    
     /**
      * Returns a single user, queried by authorization code
      * @param {String} authCode 
@@ -89,10 +92,13 @@ const db = {
             return resolve(users[0])
         })
     }),
+
     /**
      * This function removes a given field at digital_logistics_customer for a given user
      * @param {Object} user user object containing at least email and customer_id
-     * @param {*} field field to remove in db
+     * @param {String} user.email part of DynamoDB Primary Key
+     * @param {String} user.customer_id part of DynamoDB Primary Key
+     * @param {String} field field to remove in db
      */
     removeFieldInDb: (user, field) => new Promise((resolve, reject) => {
         const remove = {
