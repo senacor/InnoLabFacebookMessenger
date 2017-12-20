@@ -6,24 +6,25 @@ Since Dialogflow handles the conversation itself, it either recognizes an 'inten
 Within an 'intent' there can exist 'entities'. Those are business values that must be provided by the user.
 The 'entities' can be stored in a 'context' to be available for the next 'intent'.
 
-Beside the integration into Facebook, Dialogflow has a hugh number of supported messenger platforms, most importent are:
+Beside the integration into Facebook, Dialogflow has a huge number of supported messenger platforms, most important are:
 * Facebook
 * Google Assistant
-* Amazon Alexa
+* Amazon Alexa (Dialogflow  
+* Slack
 
 This descriptions gives an impression and summary about Dialogflow. For more information you have to read the [Dialogflow Documentation](https://dialogflow.com/docs/intents).
 
 ## Concepts
 
 The idea of Dialogflow is to design dialogs with the customer to give him the impression of a natural chat with the customer care agent.
-For this reason, Dialogflow provides a lot of in-build features to design such experience. These features are:
+For this reason, Dialogflow provides a lot of build-in features to design such experience. These features are:
 
-* NLP features learn from given sentences and identify intents and information from the user sayings.
-* Structured dialogs, where Dialogflow can perform a question and answer sessions for mandatory attributes without any further implementation.
+* NLP features learn from given sentences and identify intents and information from the user sayings
+* Structured dialogs, where Dialogflow can perform a question and answer sessions for mandatory attributes without any further implementation
 * Direct support of stored context information for a certain time or request count
 * Followup intents which could be a direct answer to an intent
 * Default intents which can be used if the answer is not understandable
-* Multiple responses to give the dialog a little more variance.
+* Multiple responses to give the dialog a little more variance
 
 The development of a bot using Dialogflow is slightly different as the bot development by yourself or using tool like claudia bot builder.
 In this case the main webhook which will be used by Facebook will be the Dialogflow agent itself. The agent is running inside the Google Cloud and will be configured via a web console.
@@ -194,10 +195,6 @@ For Facebook you have to perform the following actions to integrat the agent:
    4. Use the Callback URL and Verify Token to create an event in the Facebook Messenger Webhook Setup.
 
 ## Specific development usecases
-
-### Validate input
-
-tbd
 
 ### Render Content result with dialogflow after fulfillment
 
