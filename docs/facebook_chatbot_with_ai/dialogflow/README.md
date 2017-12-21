@@ -201,6 +201,10 @@ For Facebook, you have to perform the following actions to integrate the agent:
 
 However, this is not the way we do it. Since we are receiving as well other payloads than messages, i.e., linking and unlinking events, we use some 'proxy-lambda' as webhook for Facebook which then redirects messages to Dialogflow, i.e., calls the provided webhook of Dialogflow.
 
+##### Message Integrity Validation
+
+As described in the chapter [Facebook Chatbot Basics](../../fb_chatbot_basics/README.md#Message_Signature_Validation), Facebook supports message integrity validation. However, Dialogflow **does not** validate the integrity of a message. This can be deduced from the fact that there is no possibility to handover the app secret to the Facebook integration.
+
 #### Alexa
 
 There is no real integration for Alexa. Dialogflow provides an export for Alexa which contains the intent schema including defined entities and the utterances, only. Thus, there is no slider to enable or disable the integration. This is due to the fact that Alexa, more specific an Alexa Skill Set, does not support speech to text. However, this would be required to directly integrate Dialogflow into Alexa.
@@ -224,8 +228,6 @@ tbd
 ### Link Facebook
 
 tbd
-
-
 
 ## Pricing
 
