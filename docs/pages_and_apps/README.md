@@ -1,5 +1,7 @@
 # Facebook Pages and Apps
 
+![page_app_bot](page_app_bot.png)
+
 ## Pages
 
 A page is the must have for a business to be present on Facebook. It allows posting news and receive messages from users. Also, when users click the "like" button they get the page's updates on their news stream.
@@ -24,3 +26,9 @@ Additionally, the messenger product has integrated support for NLP, namely, for 
 
 Though one can create multiple apps that listen to the same page for message events, only one app will receive those. The other app receives standby events only. Which app is the primary one, is configured in the page settings. However, this can be changed dynamically using the ["Handover Protocol" *(extern)*](https://developers.facebook.com/docs/messenger-platform/handover-protocol).
 
+## Bot
+
+The actual bot is an application which has to provides an HTTP endpoint which is able to understand the Facebook Messenger API. Incomming Facebook messages and events has to be process and will be answered
+asynchronously via the Facebook graph API.
+
+* See some further documentation about the bot [here](../fb_chatbot_basics/README.md) *
