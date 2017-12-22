@@ -16,9 +16,9 @@ We chose AWS in our innovation lab to provide this infrastructure. For that we u
 
 The following picture gives an overview on the used AWS components:
 
-![![](aws_components_overview.png)](aws_components_overview.png "AWS components overview")
+![](aws_components_overview.png.png)
 
-## Infrastructure setup
+## Infrastructure Setup
 
 To not manually setup all the AWS components or with IaC scripts by ourselves, we use the tooling [claudia.js](https://github.com/claudiajs/claudia).
 
