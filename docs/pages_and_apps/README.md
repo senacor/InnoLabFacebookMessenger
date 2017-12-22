@@ -1,4 +1,4 @@
-# Facebook Pages and Apps
+# Facebook Pages, Apps and Bot
 
 ![page_app_bot](page_app_bot.png)
 
@@ -31,4 +31,4 @@ Though one can create multiple apps that listen to the same page for message eve
 The actual bot is an application which has to provides an HTTP endpoint which is able to understand the Facebook Messenger API. Incomming Facebook messages and events has to be process and will be answered
 asynchronously via the Facebook graph API.
 
-* See some further documentation about the bot [here](../fb_chatbot_basics/README.md) *
+*See some further documentation about the bot [here](../fb_chatbot_basics/README.md)*
